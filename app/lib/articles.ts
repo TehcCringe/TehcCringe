@@ -9,7 +9,6 @@ export const articleDataSchema = z.object({
   date: z.date(),
   author: z.string().nullish(),
   displayName: z.string().nullish(),
-  category: z.string().nullish(),
   tags: z.array(z.string()).nullish(),
 });
 

@@ -138,7 +138,6 @@ if (author) {
 const articleData: Record<string, string> = {
   title: res.title,
   date: new Date().toISOString().split('T')[0],
-  category: "",
   tags: `\n  - tech\n  - news\n  - neovim`
 };
 
