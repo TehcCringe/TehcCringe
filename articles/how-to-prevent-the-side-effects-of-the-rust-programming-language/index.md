@@ -1,7 +1,6 @@
 ---
 title: How to Prevent the Side Effects of the Rust Programming Language
 date: 2024-11-21
-category: 
 tags: 
   - tech
   - news

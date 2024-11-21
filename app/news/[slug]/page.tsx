@@ -1,14 +1,25 @@
+import { ArticleProvider } from "@/app/components/article-provider";
+import MarkdownRenderer from "@/app/components/markdown";
 import Flex from "@/app/components/ui/flex";
 import { getAllArticles, getArticle } from "@/app/lib/articles";
+import { cpSync } from "fs";
 import { ArrowLeftIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
-export const dynamicParams = false;
-export const dynamic = "force-static";
+import { join } from "path";
 
 export async function generateStaticParams() {
-  return getAllArticles().map((article) => ({ slug: article.slug }));
+  const articles = getAllArticles();
+
+  // Copy articles to public/assets at build time to ensure assets are available
+  articles.forEach((article) => {
+    const assetDir = join(process.cwd(), "public", "assets", article.slug);
+    const articleDir = join(process.cwd(), "articles", article.slug);
+
+    cpSync(articleDir, assetDir, { recursive: true });
+  });
+
+  return articles.map((article) => ({ slug: article.slug }));
 }
 
 export default async function Page({
@@ -19,8 +30,13 @@ export default async function Page({
   const { slug } = await params;
 
   const article = getArticle(slug);
-
   const image = await import(`@/articles/${slug}/cover.png`);
+
+  // Preserves Newlines
+  const contentWithNewlines = article.content.replace(
+    /(?<!(\||\n))\n(?!\n)/g,
+    "<br />\n"
+  );
 
   return (
     <Flex col className="w-screen min-h-screen" p={4} align="center">
@@ -41,8 +57,13 @@ export default async function Page({
           height={500}
         />
         <h1 className="text-4xl font-bold">{article.data.title}</h1>
-        <p>{article.content}</p>
+        <ArticleProvider article={article}>
+          <MarkdownRenderer>{contentWithNewlines}</MarkdownRenderer>
+        </ArticleProvider>
       </Flex>
     </Flex>
   );
 }
+
+export const dynamicParams = false;
+export const dynamic = "force-static";

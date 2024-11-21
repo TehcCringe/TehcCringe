@@ -1,7 +1,23 @@
-- Article Creation
-    - Title is a string
-    - Slug is created from the title. If there's a duplicate slug, add two random hex chars to the end of the slug.
-    - Cover image is a file
-        - Resized to a width of 878px
-        - Height can't be greater than width
+## Todo
 
+- Markdown support
+    - Make Code Blocks nice
+    - Take care of inline images
+- Docs
+    - Style Guide
+        - Avoid AI-generated images
+        - Photoshopped stock photos are preferred
+        - **needs cover image** PR label
+    - Guidelines
+    - FAQ
+    - Metadata
+
+## Fun things to add
+
+- Vim-like navigation in articles
+    - Vim search with `/`
+    - J and K to focus next/previous paragraphs
+    - y to copy paragraph content
+- `<leader>gh` to go home
+- `<leader>ff` fuzzy-finder for article titles across the site (layout)
+- `<leader>fw` fuzzy-search for words across articles (layout)
