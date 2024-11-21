@@ -8,6 +8,7 @@ import {
 import sharp from "sharp";
 import { slugify } from "@/app/lib/utils";
 import { join } from "path";
+import chalk from "chalk";
 
 const res = await inquirer.prompt([
   {
@@ -134,17 +135,29 @@ if (author) {
   }
 }
 
+const articleData: Record<string, string> = {
+  title: res.title,
+  date: new Date().toISOString().split('T')[0],
+  category: "",
+  tags: `\n  - tech\n  - news\n  - neovim`
+};
+
+if(handle) {
+  articleData.author = handle;
+}
+
+if(displayName) {
+  articleData.displayName = displayName;
+}
+
 writeFileSync(
   join(articleDir, "index.md"),
   `---
-title: ${res.title}
-slug: ${slug}
-${handle ? `author: ${handle}` : ""}
-${displayName ? `displayName: ${displayName}` : ""}
+${Object.entries(articleData).map(([key, value]) => `${key}: ${value}`).join("\n")}
 ---
 
-Lorem Ipsum dolor sit amet
+Bacon ipsum dolor amet pancetta short ribs doner, meatball pork loin pastrami bacon t-bone ham spare ribs
 `
 );
 
-console.log("Article created at", `articles/${slug}`);
+console.log(chalk.green("Article created at"), chalk.cyan(`articles/${slug}`));

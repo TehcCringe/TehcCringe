@@ -1,8 +1,13 @@
 ---
 title: Prime, Theo to Fight at UFC over Skill Issue Controversy
-slug: prime-theo-to-fight-at-ufc-over-skill-issue-controversy
+date: 2024-11-21
+category: 
+tags: 
+  - tech
+  - news
+  - neovim
 author: https://github.com/IroncladDev
 displayName: IroncladDev
 ---
 
-Lorem Ipsum dolor sit amet
+Bacon ipsum dolor amet pancetta short ribs doner, meatball pork loin pastrami bacon t-bone ham spare ribs
