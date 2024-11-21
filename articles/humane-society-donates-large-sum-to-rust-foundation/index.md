@@ -1,11 +1,13 @@
 ---
 title: Humane Society Donates Large Sum to Rust Foundation
 date: 2024-11-21
-category: 
-tags: 
+tags:
   - tech
   - news
-  - neovim
+  - rust
+  - philanthropy
 ---
 
-Bacon ipsum dolor amet pancetta short ribs doner, meatball pork loin pastrami bacon t-bone ham spare ribs
+In a surprising turn of events, the Humane Society reportedly donated $4.20M to Rust Foundation after massive layoff to furries.
+
+Will report back when official numbers are confirmed.
