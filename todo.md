@@ -1,23 +1,27 @@
 ## Todo
 
-- Markdown support
-    - Make Code Blocks nice
-    - Take care of inline images
-- Docs
+- Fix Vim Navigation in Articles (@IroncladDev)
+    - [ ] $ and ^ should move to start and end of line
+    - [ ] gg and G should move to start and end of file
+    - [ ] Fix visual mode
+    - [ ] Fix w/b to move by word group (\w+ or \W+)
+    - [ ] E to navigate to end of word
+    - [ ] Tooltip options on focused element
+    - [ ] Fix Multiline navigation with child nodes
+    - [ ] y to copy selection
+    - [ ] Y to copy line
+    - [ ] f / t to navigate to next/previous character?
+    - [ ] Line numbers?
+- Linting / Formatting CI (no assignee)
+- Add Logo, Header, Footer, Social Links (no assignee)
+- Fuzzy Search for Articles by Title (no assignee)
+- Fuzzy Search for Articles by Content (no assignee)
+- Twitter Post CI Job on PR Merge (no assignee)
+- Docs (no assignee)
     - Style Guide
         - Avoid AI-generated images
         - Photoshopped stock photos are preferred
         - **needs cover image** PR label
-    - Guidelines
+    - Rules
     - FAQ
-    - Metadata
-
-## Fun things to add
-
-- Vim-like navigation in articles
-    - Vim search with `/`
-    - J and K to focus next/previous paragraphs
-    - y to copy paragraph content
-- `<leader>gh` to go home
-- `<leader>ff` fuzzy-finder for article titles across the site (layout)
-- `<leader>fw` fuzzy-search for words across articles (layout)
+    - Metadata Docs
