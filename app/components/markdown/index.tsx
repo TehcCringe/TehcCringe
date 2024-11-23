@@ -1,11 +1,12 @@
+"use client";
+
 import Markdown from "markdown-to-jsx";
 import { H1, H2, H3, H4, H5, H6, HR } from "./headers";
 import { Image } from "./image";
 import { Code, Pre } from "./code";
 import { LI, OL, UL } from "./lists";
-import { P } from "./paragraph";
+import { P, A } from "./paragraph";
 import { Table, TBody, TD, TH, THead, TR } from "./table";
-import { A } from "./link";
 import { Blockquote } from "./blockquote";
 
 export default function MarkdownRenderer({ children }: { children: string }) {

@@ -1,3 +1,5 @@
+"use client";
+
 import { styled } from "react-tailwind-variants";
 
 export const Blockquote = styled("blockquote", {

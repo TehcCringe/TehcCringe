@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.vim-normal {
+  @apply selection:bg-text selection:!text-crust;
+}
+
+.vim-visual {
+  @apply selection:bg-surface1;
+}

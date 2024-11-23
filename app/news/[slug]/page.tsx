@@ -7,6 +7,7 @@ import { ArrowLeftIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { join } from "path";
+import "./highlight.css";
 
 export async function generateStaticParams() {
   const articles = getAllArticles();
@@ -32,12 +33,6 @@ export default async function Page({
   const article = getArticle(slug);
   const image = await import(`@/articles/${slug}/cover.png`);
 
-  // Preserves Newlines
-  const contentWithNewlines = article.content.replace(
-    /(?<!(\||\n))\n(?!\n)/g,
-    "<br />\n"
-  );
-
   return (
     <Flex col className="w-screen min-h-screen" p={4} align="center">
       <Flex col gap={4} align="center" className="max-w-[720px]">
@@ -55,10 +50,12 @@ export default async function Page({
           alt={article.data.title}
           width={1000}
           height={500}
+          className="border border-surface0"
         />
-        <h1 className="text-4xl font-bold">{article.data.title}</h1>
         <ArticleProvider article={article}>
-          <MarkdownRenderer>{contentWithNewlines}</MarkdownRenderer>
+          <MarkdownRenderer>
+            {`# ${article.data.title}\n\n` + article.content}
+          </MarkdownRenderer>
         </ArticleProvider>
       </Flex>
     </Flex>

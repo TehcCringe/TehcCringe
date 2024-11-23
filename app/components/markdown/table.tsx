@@ -1,4 +1,7 @@
+"use client";
+
 import { styled } from "react-tailwind-variants"
+import BlockBase from "./block"
 
 export const Table = styled("table", {
   base: "w-full text-left text-sm border border-surface0",
@@ -12,7 +15,7 @@ export const TBody = styled("tbody", {
   base: "divide-y divide-surface0",
 })
 
-export const TR = styled("tr", {
+export const TR = styled(BlockBase("tr"), {
   base: "divide-x divide-surface0",
 })
 
