@@ -1,0 +1,179 @@
+code.hljs {
+  @apply text-text;
+}
+
+code .hljs-keyword {
+  @apply text-mauve;
+}
+
+code .hljs-built_in {
+  @apply text-red;
+}
+
+code .hljs-type {
+  @apply text-yellow;
+}
+
+code .hljs-literal {
+  @apply text-peach;
+}
+
+code .hljs-number {
+  @apply text-peach;
+}
+
+code .hljs-operator {
+  @apply text-sky;
+}
+
+code .hljs-punctuation {
+  @apply text-subtext1;
+}
+
+code .hljs-property {
+  @apply text-teal;
+}
+
+code .hljs-regexp {
+  @apply text-pink;
+}
+
+code .hljs-string {
+  @apply text-green;
+}
+
+code .hljs-char.escape_ {
+  @apply text-green;
+}
+
+code .hljs-subst {
+  @apply text-subtext0;
+}
+
+code .hljs-symbol {
+  @apply text-flamingo;
+}
+
+code .hljs-variable {
+  @apply text-mauve;
+}
+
+code .hljs-variable.language_ {
+  @apply text-mauve;
+}
+
+code .hljs-variable.constant_ {
+  @apply text-peach;
+}
+
+code .hljs-title {
+  @apply text-blue;
+}
+
+code .hljs-title.class_ {
+  @apply text-yellow;
+}
+
+code .hljs-title.function_ {
+  @apply text-blue;
+}
+
+code .hljs-params {
+  @apply text-text;
+}
+
+code .hljs-comment {
+  @apply text-overlay2;
+}
+
+code .hljs-doctag {
+  @apply text-red;
+}
+
+code .hljs-meta {
+  @apply text-peach;
+}
+
+code .hljs-section {
+  @apply text-blue;
+}
+
+code .hljs-tag {
+  @apply text-teal;
+}
+
+code .hljs-name {
+  @apply text-mauve;
+}
+
+code .hljs-attr {
+  @apply text-blue;
+}
+
+code .hljs-attribute {
+  @apply text-green;
+}
+
+code .hljs-bullet {
+  @apply text-teal;
+}
+
+code .hljs-code {
+  @apply text-green;
+}
+
+code .hljs-emphasis {
+  @apply text-red italic;
+}
+
+code .hljs-strong {
+  @apply text-red font-bold;
+}
+
+code .hljs-formula {
+  @apply text-teal;
+}
+
+code .hljs-link {
+  @apply text-sapphire italic;
+}
+
+code .hljs-quote {
+  @apply text-green italic;
+}
+
+code .hljs-selector-tag {
+  @apply text-yellow;
+}
+
+code .hljs-selector-id {
+  @apply text-blue;
+}
+
+code .hljs-selector-class {
+  @apply text-teal;
+}
+
+code .hljs-selector-attr {
+  @apply text-mauve;
+}
+
+code .hljs-selector-pseudo {
+  @apply text-teal;
+}
+
+code .hljs-template-tag {
+  @apply text-flamingo;
+}
+
+code .hljs-template-variable {
+  @apply text-flamingo;
+}
+
+code .hljs-addition {
+  @apply text-green bg-green/15;
+}
+
+code .hljs-deletion {
+  @apply text-red bg-red/15;
+}

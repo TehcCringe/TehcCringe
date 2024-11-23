@@ -10,12 +10,6 @@ displayName: IroncladDev
 ---
 
 Bacon `ipsum` dolor amet pancetta short ribs doner, meatball pork loin pastrami bacon t-bone ham spare ribs
-Breaklines
-Are
-Fun
-Y'know
-
-# Theo is really sunburnt btw
 
 # Header 1
 
@@ -32,7 +26,13 @@ Y'know
 This is another paragraph with **bold**, _italic_, and `inline code` as well as a [link](https://example.com) and ~~strikethrough~~ text and stuff like that.
 
 ```tsx
-code block
+const code = "tsx";
+
+return <div>{code}</div>;
+```
+
+```python
+print("Hello World")
 ```
 
 > This is a blockquote
@@ -57,9 +57,5 @@ code block
 ## Inline Image
 
 ![Image](inline.png)
-
-## Inline Image 2
-
-![Image](cover.png)
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.

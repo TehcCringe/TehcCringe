@@ -10,9 +10,11 @@
     "new:article": "bun scripts/new-article.ts"
   },
   "dependencies": {
+    "@catppuccin/highlightjs": "^1.0.0",
     "@catppuccin/tailwindcss": "^0.1.6",
     "chalk": "^5.3.0",
     "gray-matter": "^4.0.3",
+    "highlight.js": "^11.10.0",
     "inquirer": "^12.1.0",
     "lucide-react": "^0.460.0",
     "markdown-to-jsx": "^7.7.0",
@@ -21,6 +23,7 @@
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "react-tailwind-variants": "^1.0.2",
     "sharp": "^0.33.5",
+    "tailwind-merge": "^2.5.4",
     "zod": "^3.23.8"
   },
   "devDependencies": {
