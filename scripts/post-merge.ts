@@ -8,7 +8,7 @@ interface ScriptParams {
   core: typeof core;
 }
 
-export default async function run({ github, context, core }: ScriptParams) {
+async function run({ github, context, core }: ScriptParams) {
   const { owner, repo } = context.repo;
   const pullRequest = context.payload.pull_request;
 
@@ -28,3 +28,5 @@ export default async function run({ github, context, core }: ScriptParams) {
   core.setOutput("changed_files", changedFiles);
   console.log("Changed files:", changedFiles);
 }
+
+export { run };

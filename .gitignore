@@ -39,4 +39,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Copied assets
 /public/assets
+
+# Compiled CI script
+/scripts/post-merge.js
