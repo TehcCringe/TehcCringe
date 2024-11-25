@@ -15,7 +15,7 @@ export function Image({
     <img
       src={"/" + join("assets", article.slug, imageSrc)}
       alt={alt}
-      className="border border-surface0 focus:outline outline-2 outline-surface2 outline-offset-8"
+      className="border border-surface0"
       {...props}
     />
   );

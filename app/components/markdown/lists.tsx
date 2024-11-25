@@ -1,16 +1,15 @@
 "use client";
 
-import { styled } from "react-tailwind-variants"
-import BlockBase from "./block"
+import { styled } from "react-tailwind-variants";
 
-export const UL = styled(BlockBase("ul"), {
+export const UL = styled("ul", {
   base: "list-disc list-inside",
-})
+});
 
-export const OL = styled(BlockBase("ol"), {
+export const OL = styled("ol", {
   base: "list-decimal list-inside",
-})
+});
 
 export const LI = styled("li", {
   base: "ml-4",
-})
+});

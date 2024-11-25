@@ -1,7 +1,6 @@
 "use client";
 
 import { styled } from "react-tailwind-variants";
-import BlockBase from "./block";
 import {
   ComponentProps,
   forwardRef,
@@ -12,7 +11,7 @@ import {
 import { twMerge } from "tailwind-merge";
 import hljs from "highlight.js";
 
-export const Pre = styled(BlockBase("pre"), {
+export const Pre = styled("pre", {
   base: "text-sm bg-surface0 p-2",
 });
 

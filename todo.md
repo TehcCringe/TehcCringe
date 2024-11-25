@@ -1,22 +1,10 @@
 ## Todo
 
-- Fix Vim Navigation in Articles (@IroncladDev)
-    - [ ] $ and ^ should move to start and end of line
-    - [ ] gg and G should move to start and end of file
-    - [ ] Fix visual mode
-    - [ ] Fix w/b to move by word group (\w+ or \W+)
-    - [ ] E to navigate to end of word
-    - [ ] Tooltip options on focused element
-    - [ ] Fix Multiline navigation with child nodes
-    - [ ] y to copy selection
-    - [ ] Y to copy line
-    - [ ] f / t to navigate to next/previous character?
-    - [ ] Line numbers?
 - Linting / Formatting CI (no assignee)
 - Add Logo, Header, Footer, Social Links (no assignee)
 - Fuzzy Search for Articles by Title (no assignee)
 - Fuzzy Search for Articles by Content (no assignee)
-- Twitter Post CI Job on PR Merge (no assignee)
+- Twitter Post CI Job on PR Merge (@IroncladDev)
 - Docs (no assignee)
     - Style Guide
         - Avoid AI-generated images
