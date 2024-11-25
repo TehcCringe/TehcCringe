@@ -1,4 +1,4 @@
-name: Get Added Files on PR Merge
+name: Post Merge Action
 
 on:
   pull_request:
@@ -7,13 +7,10 @@ on:
       - master
 
 jobs:
-  get-added-files:
+  post-merge:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v4
 
       - name: Install Bun
         uses: oven-sh/setup-bun@v2
@@ -24,7 +21,7 @@ jobs:
         run: bun install
 
       - name: Build Action Script
-        run: bun build scripts/post-merge.ts --target node --outdir ./scripts
+        run: bun build scripts/post-merge.ts --target node --outdir ./scripts --format cjs
 
       - name: Run Action script
         uses: actions/github-script@v7

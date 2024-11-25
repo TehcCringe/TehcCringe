@@ -9,7 +9,6 @@ interface ScriptParams {
 }
 
 export default async function run({ github, context, core }: ScriptParams) {
-
   const { owner, repo } = context.repo;
   const pullRequest = context.payload.pull_request;
 
