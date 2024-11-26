@@ -56,7 +56,7 @@ async function run({ github, context, core }: ScriptParams) {
   });
 
   for (const file of changedArticleContentFiles) {
-    const articleDir = dirname(file);
+    const articleDir = join(process.cwd(), dirname(file));
 
     const articleSlug = articleDir.split("/").at(-1);
 
