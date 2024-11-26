@@ -24,7 +24,6 @@
     "react-tailwind-variants": "^1.0.2",
     "sharp": "^0.33.5",
     "tailwind-merge": "^2.5.4",
-    "twitter-api-v2": "^1.18.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {

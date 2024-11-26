@@ -2,9 +2,8 @@ import { GitHub } from "@actions/github/lib/utils";
 import { Context } from "@actions/github/lib/context";
 import * as core from "@actions/core";
 import { existsSync } from "fs";
-import { dirname, join } from "path";
+import { dirname } from "path";
 import { getArticle } from "@/app/lib/articles";
-import { TwitterApi } from "twitter-api-v2";
 
 interface ScriptParams {
   github: InstanceType<typeof GitHub>;
@@ -42,17 +41,11 @@ async function run({ github, context, core }: ScriptParams) {
 
   console.log(typeof process.env.X_API_KEY, "X_API_KEY");
   console.log(typeof process.env.X_API_KEY_SECRET, "X_API_KEY_SECRET");
-  console.log(typeof process.env.X_CLIENT_ID, "X_CLIENT_ID");
-  console.log(typeof process.env.X_CLIENT_SECRET, "X_CLIENT_SECRET");
   console.log(typeof process.env.X_ACCESS_TOKEN, "X_ACCESS_TOKEN");
-  console.log(typeof process.env.X_ACCESS_TOKEN_SECRET, "X_ACCESS_TOKEN_SECRET");
-
-  const client = new TwitterApi({
-    appKey: process.env.X_CLIENT_ID as string,
-    appSecret: process.env.X_CLIENT_SECRET as string,
-    accessToken: process.env.X_ACCESS_TOKEN as string,
-    accessSecret: process.env.X_ACCESS_TOKEN_SECRET as string,
-  });
+  console.log(
+    typeof process.env.X_ACCESS_TOKEN_SECRET,
+    "X_ACCESS_TOKEN_SECRET"
+  );
 
   for (const file of changedArticleContentFiles) {
     const articleDir = dirname(file);
@@ -64,23 +57,43 @@ async function run({ github, context, core }: ScriptParams) {
       continue;
     }
 
-    const article = getArticle(articleSlug);
-
-    const articleUrl = `https://tehccringe.com/news/${articleSlug}`;
-
-    const shortenedUrl = await fetch(
-      `https://tinyurl.com/api-create.php?url=${articleUrl}`
-    ).then((res) => res.text());
-    const shortenedUrlWithoutHttp = shortenedUrl.replace(/^https?:\/\//, "");
-
-    const mediaId = await client.v1.uploadMedia(join(articleDir, "cover.png"));
-    const newTweet = await client.v1.tweet(article.data.title + " " + shortenedUrlWithoutHttp, { media_ids: mediaId });
-
-    console.log("New tweet:", newTweet);
+    await postTweet(articleSlug);
   }
 
   core.setOutput("changed_files", changedFiles);
   console.log("Changed files:", changedFiles);
+}
+
+async function postTweet(articleSlug: string) {
+  const article = getArticle(articleSlug);
+
+  const articleUrl = `https://tehccringe.com/news/${articleSlug}`;
+
+  const shortenedUrl = await fetch(
+    `https://tinyurl.com/api-create.php?url=${articleUrl}`
+  ).then((res) => res.text());
+  const shortenedUrlWithoutHttp = shortenedUrl.replace(/^https?:\/\//, "");
+
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append(
+    "Authorization",
+    `OAuth oauth_consumer_key="${process.env.X_API_KEY}",oauth_token="${process.env.X_ACCESS_TOKEN}",oauth_signature_method="HMAC-SHA1",oauth_version="1.0"`
+  );
+
+  const raw = JSON.stringify({
+    text: `${article.data.title} ${shortenedUrlWithoutHttp}`,
+  });
+
+  fetch("https://api.twitter.com/2/tweets", {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  })
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
 }
 
 export { run };

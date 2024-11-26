@@ -28,11 +28,8 @@ jobs:
         env: 
           X_API_KEY: ${{ secrets.X_API_KEY }}
           X_API_KEY_SECRET: ${{ secrets.X_API_KEY_SECRET }}
-          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
           X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
           X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
-          X_CLIENT_ID: ${{ secrets.X_CLIENT_ID }}
-          X_CLIENT_SECRET: ${{ secrets.X_CLIENT_SECRET }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           result-encoding: string
