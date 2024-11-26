@@ -42,12 +42,14 @@ async function run({ github, context, core }: ScriptParams) {
 
   console.log(typeof process.env.X_API_KEY, "X_API_KEY");
   console.log(typeof process.env.X_API_KEY_SECRET, "X_API_KEY_SECRET");
+  console.log(typeof process.env.X_CLIENT_ID, "X_CLIENT_ID");
+  console.log(typeof process.env.X_CLIENT_SECRET, "X_CLIENT_SECRET");
   console.log(typeof process.env.X_ACCESS_TOKEN, "X_ACCESS_TOKEN");
   console.log(typeof process.env.X_ACCESS_TOKEN_SECRET, "X_ACCESS_TOKEN_SECRET");
 
   const client = new TwitterApi({
-    appKey: process.env.X_API_KEY as string,
-    appSecret: process.env.X_API_KEY_SECRET as string,
+    appKey: process.env.X_CLIENT_ID as string,
+    appSecret: process.env.X_CLIENT_SECRET as string,
     accessToken: process.env.X_ACCESS_TOKEN as string,
     accessSecret: process.env.X_ACCESS_TOKEN_SECRET as string,
   });
