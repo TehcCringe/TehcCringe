@@ -40,6 +40,11 @@ async function run({ github, context, core }: ScriptParams) {
     .filter((file) => file.startsWith("articles/") && file.endsWith("index.md"))
     .filter(existsSync);
 
+  console.log(typeof process.env.X_API_KEY);
+  console.log(typeof process.env.X_API_SECRET);
+  console.log(typeof process.env.X_ACCESS_TOKEN);
+  console.log(typeof process.env.X_ACCESS_TOKEN_SECRET);
+
   const client = new TwitterApi({
     appKey: process.env.X_API_KEY as string,
     appSecret: process.env.X_API_SECRET as string,
