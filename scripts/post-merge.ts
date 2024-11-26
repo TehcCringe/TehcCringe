@@ -55,6 +55,12 @@ async function run({ github, context, core }: ScriptParams) {
     access_token_secret: process.env.X_ACCESS_TOKEN_SECRET as string,
   });
 
+  console.log(await client.get("account/verify_credentials", {
+    include_entities: false,
+    skip_status: true,
+    include_email: false,
+  }));
+
   for (const file of changedArticleContentFiles) {
     const articleDir = join(process.cwd(), dirname(file));
 
