@@ -1,9 +1,10 @@
 import { GitHub } from "@actions/github/lib/utils";
 import { Context } from "@actions/github/lib/context";
 import * as core from "@actions/core";
-import { existsSync } from "fs";
-import { dirname } from "path";
+import { existsSync, readFileSync } from "fs";
+import { dirname, join } from "path";
 import { getArticle } from "@/app/lib/articles";
+import Twit from "twit";
 
 interface ScriptParams {
   github: InstanceType<typeof GitHub>;
@@ -47,6 +48,13 @@ async function run({ github, context, core }: ScriptParams) {
     "X_ACCESS_TOKEN_SECRET"
   );
 
+  const client = new Twit({
+    consumer_key: process.env.X_API_KEY as string,
+    consumer_secret: process.env.X_API_KEY_SECRET as string,
+    access_token: process.env.X_ACCESS_TOKEN as string,
+    access_token_secret: process.env.X_ACCESS_TOKEN_SECRET as string,
+  });
+
   for (const file of changedArticleContentFiles) {
     const articleDir = dirname(file);
 
@@ -57,43 +65,28 @@ async function run({ github, context, core }: ScriptParams) {
       continue;
     }
 
-    await postTweet(articleSlug);
+    const article = getArticle(articleSlug);
+
+    const articleUrl = `https://tehccringe.com/news/${articleSlug}`;
+
+    const shortenedUrl = await fetch(
+      `https://tinyurl.com/api-create.php?url=${articleUrl}`
+    ).then((res) => res.text());
+    const shortenedUrlWithoutHttp = shortenedUrl.replace(/^https?:\/\//, "");
+
+    const media_data = readFileSync(join(articleDir, "cover.png"));
+    const media = await client.post("media/upload", { media_data });
+    const newTweet = await client.post("statuses/update", {
+      status: article.data.title + " " + shortenedUrlWithoutHttp,
+      // @ts-expect-error media_id_string should exist
+      media_ids: [media.data.media_id_string],
+    });
+
+    console.log("New tweet:", newTweet.data);
   }
 
   core.setOutput("changed_files", changedFiles);
   console.log("Changed files:", changedFiles);
-}
-
-async function postTweet(articleSlug: string) {
-  const article = getArticle(articleSlug);
-
-  const articleUrl = `https://tehccringe.com/news/${articleSlug}`;
-
-  const shortenedUrl = await fetch(
-    `https://tinyurl.com/api-create.php?url=${articleUrl}`
-  ).then((res) => res.text());
-  const shortenedUrlWithoutHttp = shortenedUrl.replace(/^https?:\/\//, "");
-
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  myHeaders.append(
-    "Authorization",
-    `OAuth oauth_consumer_key="${process.env.X_API_KEY}",oauth_token="${process.env.X_ACCESS_TOKEN}",oauth_signature_method="HMAC-SHA1",oauth_version="1.0"`
-  );
-
-  const raw = JSON.stringify({
-    text: `${article.data.title} ${shortenedUrlWithoutHttp}`,
-  });
-
-  fetch("https://api.twitter.com/2/tweets", {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-    redirect: "follow",
-  })
-    .then((response) => response.text())
-    .then((result) => console.log(result))
-    .catch((error) => console.error(error));
 }
 
 export { run };
