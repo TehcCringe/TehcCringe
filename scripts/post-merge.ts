@@ -74,37 +74,17 @@ async function run({ github, context, core }: ScriptParams) {
     ).then((res) => res.text());
     const shortenedUrlWithoutHttp = shortenedUrl.replace(/^https?:\/\//, "");
 
-    let newTweet: any;
-    let mediaId: string;
+    const mediaId = await client.v1.uploadMedia(join(articleDir, "cover.png"));
+    await client.v2.tweet(article.data.title + " " + shortenedUrlWithoutHttp, {
+      media: {
+        media_ids: [mediaId],
+      },
+    });
 
-    try {
-      mediaId = await client.v1.uploadMedia(join(articleDir, "cover.png"));
-    } catch (e) {
-      console.log("MEDIA ERROR", e);
-      console.log(JSON.stringify(e));
-      throw e;
-    }
-
-    try {
-      newTweet = await client.v2.tweet(
-        article.data.title + " " + shortenedUrlWithoutHttp,
-        {
-          media: {
-            media_ids: [mediaId],
-          },
-        }
-      );
-    } catch (e) {
-      console.log("TWEET ERROR", e);
-      console.log(JSON.stringify(e));
-      throw e;
-    }
-
-    console.log("New tweet:", newTweet.data);
+    console.log("Successfully Tweeted:", article.data.title);
   }
 
   core.setOutput("changed_files", changedFiles);
-  console.log("Changed files:", changedFiles);
 }
 
 export { run };
