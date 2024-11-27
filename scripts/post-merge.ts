@@ -4,6 +4,7 @@ import * as core from "@actions/core";
 import { existsSync, readFileSync } from "fs";
 import { dirname, join } from "path";
 import { getArticle } from "@/app/lib/articles";
+import Twitter from "twitter-v2";
 import Twit from "twit";
 
 interface ScriptParams {
@@ -48,10 +49,16 @@ async function run({ github, context, core }: ScriptParams) {
     "X_ACCESS_TOKEN_SECRET"
   );
 
-  const client = new Twit({
+  const twitClient = new Twit({
     consumer_key: process.env.X_API_KEY as string,
     consumer_secret: process.env.X_API_KEY_SECRET as string,
     access_token: process.env.X_ACCESS_TOKEN as string,
+    access_token_secret: process.env.X_ACCESS_TOKEN_SECRET as string,
+  });
+  const v2Client = new Twitter({
+    consumer_key: process.env.X_API_KEY as string,
+    consumer_secret: process.env.X_API_KEY_SECRET as string,
+    access_token_key: process.env.X_ACCESS_TOKEN as string,
     access_token_secret: process.env.X_ACCESS_TOKEN_SECRET as string,
   });
 
@@ -80,24 +87,16 @@ async function run({ github, context, core }: ScriptParams) {
 
     let newTweet: any;
 
-    const media = await client.post("media/upload", { media_data });
+    const media = await twitClient.post("media/upload", { media_data });
 
     try {
-      client.post(
-        "2/tweets",
-        {
-          text: article.data.title + " " + shortenedUrlWithoutHttp,
-          media: {
-            // @ts-expect-error data should be of type `{}`, not `object`
-            media_ids: [media.data.media_id_string],
-          },
-        } as Twit.Params,
-        (err, result, response) => {
-          console.log("ERROR", err);
-          console.log("RESULT", result);
-          console.log("RESPONSE", response);
-        }
-      );
+      newTweet = await v2Client.post("tweets", {
+        text: article.data.title + " " + shortenedUrlWithoutHttp,
+        media: {
+          // @ts-expect-error data should be of type `{}`, not `object`
+          media_ids: [media.data.media_id_string],
+        },
+      });
     } catch (e) {
       console.log("TWEET ERROR", e);
       console.log(JSON.stringify(e));
