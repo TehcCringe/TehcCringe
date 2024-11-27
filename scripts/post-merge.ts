@@ -55,11 +55,13 @@ async function run({ github, context, core }: ScriptParams) {
     access_token_secret: process.env.X_ACCESS_TOKEN_SECRET as string,
   });
 
-  console.log(await client.get("account/verify_credentials", {
-    include_entities: false,
-    skip_status: true,
-    include_email: false,
-  }));
+  console.log(
+    await client.get("account/verify_credentials", {
+      include_entities: false,
+      skip_status: true,
+      include_email: false,
+    })
+  );
 
   for (const file of changedArticleContentFiles) {
     const articleDir = join(process.cwd(), dirname(file));
@@ -80,13 +82,29 @@ async function run({ github, context, core }: ScriptParams) {
     ).then((res) => res.text());
     const shortenedUrlWithoutHttp = shortenedUrl.replace(/^https?:\/\//, "");
 
-    const media_data = readFileSync(join(articleDir, "cover.png"));
-    const media = await client.post("media/upload", { media_data });
-    const newTweet = await client.post("statuses/update", {
-      status: article.data.title + " " + shortenedUrlWithoutHttp,
-      // @ts-expect-error media_id_string should exist
-      media_ids: [media.data.media_id_string],
+    const media_data = readFileSync(join(articleDir, "cover.png"), {
+      encoding: "base64",
     });
+
+    let media: any;
+    let newTweet: any;
+
+    try {
+      media = await client.post("media/upload", { media_data });
+    } catch (e) {
+      console.log("MEDIA UPLOAD ERROR", e);
+      console.log(JSON.stringify(e));
+    }
+
+    try {
+      newTweet = await client.post("statuses/update", {
+        status: article.data.title + " " + shortenedUrlWithoutHttp,
+        media_ids: [media.data.media_id_string],
+      });
+    } catch (e) {
+      console.log("TWEET ERROR", e);
+      console.log(JSON.stringify(e));
+    }
 
     console.log("New tweet:", newTweet.data);
   }
