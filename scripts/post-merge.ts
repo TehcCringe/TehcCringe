@@ -86,21 +86,18 @@ async function run({ github, context, core }: ScriptParams) {
       encoding: "base64",
     });
 
-    let media: any;
     let newTweet: any;
 
-    try {
-      media = await client.post("media/upload", { media_data });
-    } catch (e) {
-      console.log("MEDIA UPLOAD ERROR", e);
-      console.log(JSON.stringify(e));
-    }
+    const media = await client.post("media/upload", { media_data });
 
     try {
-      newTweet = await client.post("statuses/update", {
-        status: article.data.title + " " + shortenedUrlWithoutHttp,
-        media_ids: [media.data.media_id_string],
-      });
+      newTweet = await client.post("2/tweets", {
+        text: article.data.title + " " + shortenedUrlWithoutHttp,
+        media: {
+          // @ts-expect-error data should be of type `{}`, not `object`
+          media_ids: [media.data.media_id_string],
+        },
+      } as Twit.Params);
     } catch (e) {
       console.log("TWEET ERROR", e);
       console.log(JSON.stringify(e));
