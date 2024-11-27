@@ -55,14 +55,6 @@ async function run({ github, context, core }: ScriptParams) {
     access_token_secret: process.env.X_ACCESS_TOKEN_SECRET as string,
   });
 
-  console.log(
-    await client.get("account/verify_credentials", {
-      include_entities: false,
-      skip_status: true,
-      include_email: false,
-    })
-  );
-
   for (const file of changedArticleContentFiles) {
     const articleDir = join(process.cwd(), dirname(file));
 
@@ -91,13 +83,21 @@ async function run({ github, context, core }: ScriptParams) {
     const media = await client.post("media/upload", { media_data });
 
     try {
-      newTweet = await client.post("2/tweets", {
-        text: article.data.title + " " + shortenedUrlWithoutHttp,
-        media: {
-          // @ts-expect-error data should be of type `{}`, not `object`
-          media_ids: [media.data.media_id_string],
-        },
-      } as Twit.Params);
+      client.post(
+        "2/tweets",
+        {
+          text: article.data.title + " " + shortenedUrlWithoutHttp,
+          media: {
+            // @ts-expect-error data should be of type `{}`, not `object`
+            media_ids: [media.data.media_id_string],
+          },
+        } as Twit.Params,
+        (err, result, response) => {
+          console.log("ERROR", err);
+          console.log("RESULT", result);
+          console.log("RESPONSE", response);
+        }
+      );
     } catch (e) {
       console.log("TWEET ERROR", e);
       console.log(JSON.stringify(e));
