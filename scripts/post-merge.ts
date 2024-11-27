@@ -1,11 +1,10 @@
 import { GitHub } from "@actions/github/lib/utils";
 import { Context } from "@actions/github/lib/context";
 import * as core from "@actions/core";
-import { existsSync, readFileSync } from "fs";
+import { existsSync } from "fs";
 import { dirname, join } from "path";
 import { getArticle } from "@/app/lib/articles";
-import Twitter from "twitter-v2";
-import Twit from "twit";
+import TwitterApi from "twitter-api-v2";
 
 interface ScriptParams {
   github: InstanceType<typeof GitHub>;
@@ -49,17 +48,11 @@ async function run({ github, context, core }: ScriptParams) {
     "X_ACCESS_TOKEN_SECRET"
   );
 
-  const twitClient = new Twit({
-    consumer_key: process.env.X_API_KEY as string,
-    consumer_secret: process.env.X_API_KEY_SECRET as string,
-    access_token: process.env.X_ACCESS_TOKEN as string,
-    access_token_secret: process.env.X_ACCESS_TOKEN_SECRET as string,
-  });
-  const v2Client = new Twitter({
-    consumer_key: process.env.X_API_KEY as string,
-    consumer_secret: process.env.X_API_KEY_SECRET as string,
-    access_token_key: process.env.X_ACCESS_TOKEN as string,
-    access_token_secret: process.env.X_ACCESS_TOKEN_SECRET as string,
+  const client = new TwitterApi({
+    appKey: process.env.X_API_KEY as string,
+    appSecret: process.env.X_API_KEY_SECRET as string,
+    accessToken: process.env.X_ACCESS_TOKEN as string,
+    accessSecret: process.env.X_ACCESS_TOKEN_SECRET as string,
   });
 
   for (const file of changedArticleContentFiles) {
@@ -81,25 +74,30 @@ async function run({ github, context, core }: ScriptParams) {
     ).then((res) => res.text());
     const shortenedUrlWithoutHttp = shortenedUrl.replace(/^https?:\/\//, "");
 
-    const media_data = readFileSync(join(articleDir, "cover.png"), {
-      encoding: "base64",
-    });
-
     let newTweet: any;
-
-    const media = await twitClient.post("media/upload", { media_data });
+    let mediaId: string;
 
     try {
-      newTweet = await v2Client.post("tweets", {
-        text: article.data.title + " " + shortenedUrlWithoutHttp,
-        media: {
-          // @ts-expect-error data should be of type `{}`, not `object`
-          media_ids: [media.data.media_id_string],
-        },
-      });
+      mediaId = await client.v1.uploadMedia(join(articleDir, "cover.png"));
+    } catch (e) {
+      console.log("MEDIA ERROR", e);
+      console.log(JSON.stringify(e));
+      throw e;
+    }
+
+    try {
+      newTweet = await client.v2.tweet(
+        article.data.title + " " + shortenedUrlWithoutHttp,
+        {
+          media: {
+            media_ids: [mediaId],
+          },
+        }
+      );
     } catch (e) {
       console.log("TWEET ERROR", e);
       console.log(JSON.stringify(e));
+      throw e;
     }
 
     console.log("New tweet:", newTweet.data);
