@@ -50,7 +50,9 @@ export default function RootLayout({
           </nav>
         </header>
 
+        <div className="min-h-screen max-w-[1280px] mx-auto">
         {children}
+        </div>
 
         <Footer />
       </body>
