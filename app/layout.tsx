@@ -9,8 +9,8 @@ import Flex from "./components/ui/flex";
 import "./globals.css";
 
 const jetBrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  display: "swap",
+  subsets: ['latin'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
