@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
-import { Github, Twitter } from "lucide-react";
-import LogoMark from "./components/logo-mark";
-import LogoText from "./components/logo-text";
+import { Github } from "lucide-react";
 import Link from "next/link";
+import LogoMark from "../public/svg/logo-mark.svg";
+import LogoText from "../public/svg/logo-text.svg";
+import XLogo from "../public/svg/x-logo.svg";
 import "./globals.css";
+
+
 
 const jetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -28,22 +31,22 @@ export default function RootLayout({
       >
         <header className="max-w-[1280px] w-full mx-auto px-4 pt-8 flex items-center justify-between pb-8">
           <Link href="/" className="flex gap-2">
-            <LogoMark className="w-[66px] text-primary pb-[8px]" />
-            <LogoText className="w-[226px] text-white" />
+              <LogoMark className="w-[66px] fill-primary pb-[8px]" />
+              <LogoText className="w-[226px] fill-white" />
           </Link>
 
           <nav className="hidden sm:flex gap-6">
-              <Link
-                href="https://github.com/TehcCringe/TehcCringe"
-                className="bg-primary text-white font-semibold px-4 py-2 rounded-lg flex items-center text-xl hover:text-primary"
-              >
-                Submit an Article
-              </Link>
+            <Link
+              href="https://github.com/TehcCringe/TehcCringe"
+              className="bg-primary text-white font-semibold px-4 py-2 rounded-lg flex items-center text-xl hover:text-primary"
+            >
+              Submit an Article
+            </Link>
           </nav>
         </header>
 
         <div className="min-h-screen max-w-[1280px] mx-auto">
-        {children}
+          {children}
         </div>
 
         <Footer />
@@ -69,23 +72,15 @@ function Footer() {
             rel="noreferrer"
           >
             <Github className="h-5 w-5 text-muted-foreground hover:text-foreground" />
-            <span className="sr-only">GitHub</span>
+            <span className="sr-only">GitHub - where microsoft uses your code to train ai (so your job is 100% safe)</span>
           </Link>
           <Link
             href="https://x.com/tehccringe"
             target="_blank"
             rel="noreferrer"
           >
-            <svg
-              className="size-5 fill-current hover:text-foreground"
-              role="img"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <title>X</title>
-              <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
-            </svg>
-            <span className="sr-only">Twitter</span>
+            <XLogo className="size-5 fill-current hover:text-foreground"/>
+            <span className="sr-only">X - formerly twitter, before elon saved democracy</span>
           </Link>
         </div>
       </div>
