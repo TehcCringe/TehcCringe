@@ -1,28 +1,30 @@
 # TehcCringe
 
-An open-source satirical tech news outlet
+An open-source satirical tech news outlet that anyone can contribute to
 
 - [𝕏 / Twitter](https://x.com/TehcCringe)
 - [Website](https://tehccringe.com)
 - [Github](https://github.com/TehcCringe/TehcCringe)
 
-## How it works
+Join the [Discord](https://discord.gg/vSwdyDAsUn) for support, updates, and unhinged discussions
+
+## how it works
 
 TehcCringe is a static Next.js site hosted on Github Pages.
 
 Whenever a PR containing a new article is merged, a CI job will automatically tweet it.
 
-## Contributing
+## contributing
 
-Want to write an article or contribute to the site?
+Want to write an article, fix a bug that's been bothering you, or create additional tech debt for the core maintainers?
 
 - Check out the [Contributor Guide](docs/contributing.md)
+- Read the [Rules](docs/rules.md)
 - Read the [Style Guide](docs/style-guide.md)
-- Join the [Discord](https://discord.gg/vSwdyDAsUn)
 
-## Getting Started
+## development
 
-1. Fork the repository
+1. Fork the [repository](https://github.com/TehcCringe/TehcCringe)
 2. Ensure you have [Bun](https://bun.sh) installed
 3. Run `bun install` to install dependencies
 

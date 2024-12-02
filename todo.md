@@ -15,3 +15,5 @@
     - [ ] Contributing / Rules
         - [ ] Keep it family friendly
     - [ ] License
+- [ ] Discord Weebhook for Github (no assignee)
+- [ ] Discord Weebhook for newly-published articles (no assignee)
