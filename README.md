@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TehcCringe
 
-## Getting Started
+An open-source satirical tech news outlet that anyone can contribute to
 
-First, run the development server:
+- [𝕏 / Twitter](https://x.com/TehcCringe)
+- [Website](https://tehccringe.com)
+- [Github](https://github.com/TehcCringe/TehcCringe)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Join the [Discord](https://discord.gg/vSwdyDAsUn) for support, updates, and unhinged discussions
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## how it works
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+TehcCringe is a static Next.js site hosted on Github Pages.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Whenever a PR containing a new article is merged, a CI job will automatically tweet it.
 
-## Learn More
+## contributing
 
-To learn more about Next.js, take a look at the following resources:
+Want to write an article, fix a bug that's been bothering you, or create additional tech debt for the core maintainers?
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Check out the [Contributor Guide](docs/contributing.md)
+- Read the [Rules](docs/rules.md)
+- Read the [Style Guide](docs/style-guide.md)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## development
 
-## Deploy on Vercel
+1. Fork the [repository](https://github.com/TehcCringe/TehcCringe)
+2. Ensure you have [Bun](https://bun.sh) installed
+3. Run `bun install` to install dependencies
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**To create a new article:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Run `bun run new:article` to create a new article
+2. Navigate to the newly created article folder, edit the metadata and write the article content
+
+**To run the site locally:**
+
+1. Run `bun dev` to start the development server
+
