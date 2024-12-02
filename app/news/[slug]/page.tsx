@@ -34,7 +34,7 @@ export default async function Page({
   const image = await import(`@/articles/${slug}/cover.png`);
 
   return (
-    <Flex col className="w-screen min-h-screen" p={4} align="center">
+    <Flex col p={4} align="center">
       <Flex col gap={4} align="center" className="max-w-[720px]">
         <Flex row justify="between" width="full">
           <Link

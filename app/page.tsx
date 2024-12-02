@@ -6,7 +6,7 @@ export default async function Home() {
   const articles = getAllArticles();
 
   return (
-    <Flex col p={4} className="w-screen min-h-screen" align="center">
+    <Flex col p={4} align="center">
       <Flex wrap gap={4} width="full" className="max-w-720px">
         {articles.map((article) => (
           <Article article={article} key={article.slug} />
