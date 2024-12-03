@@ -4,7 +4,7 @@ date: 2024-12-03
 tags: 
   - tech
   - news
-  - neovim
+  - ai
 author: https://x.com/ChristianThePav
 displayName: Christian Pav
 ---
