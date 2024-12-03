@@ -1,36 +1,23 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TehcCringe
 
-## Getting Started
+An open-source satirical tech news outlet that anyone can contribute to
 
-First, run the development server:
+- [𝕏 / Twitter](https://x.com/TehcCringe)
+- [Website](https://tehccringe.com)
+- [Github](https://github.com/TehcCringe/TehcCringe)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Join the [Discord](https://discord.gg/vSwdyDAsUn) for support, updates, and hilarious discussions
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## how it works
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+TehcCringe is a static Next.js site hosted on Github Pages
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Whenever a PR containing a new article is merged, a CI job will automatically tweet it
 
-## Learn More
+## contributing
 
-To learn more about Next.js, take a look at the following resources:
+Interested in writing your own article, fixing a bug, or creating additional tech debt for the maintainers?
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Check out the [Contributing Guide](docs/contributing.md)
+- Glance at the [Rules](docs/rules.md)
+- Read the [Style Guide](docs/style-guide.md)
