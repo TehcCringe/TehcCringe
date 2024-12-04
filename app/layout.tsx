@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
-import { Github } from "lucide-react";
-import Link from "next/link";
-import LogoMark from "../public/svg/logo-mark.svg";
-import XLogo from "../public/svg/x-logo.svg";
 import Flex from "./components/ui/flex";
 import "./globals.css";
+import Footer from "./components/footer";
+import Header from "./components/header";
 
 const jetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -27,72 +25,13 @@ export default function RootLayout({
       <body
         className={`${jetBrainsMono.className} antialiased bg-base text-text`}
       >
-        <Flex
-          className="max-w-[1280px] w-full py-8 px-4 mx-auto"
-          align="center"
-          justify="between"
-          width="full"
-          asChild
-        >
-          <header>
-            <Link href="/" className="flex gap-2 items-center">
-              <LogoMark className="h-[48px] fill-mauve" />
-              <h1 className="font-black text-text text-5xl leading-none tracking-tighter">TehcCringe</h1>
-            </Link>
-
-            <nav className="hidden sm:flex gap-6">
-              <Link
-                href="https://github.com/TehcCringe/TehcCringe"
-                className="bg-surface0 text-white font-semibold px-4 py-2 rounded-lg flex items-center text-xl hover:text-primary"
-              >
-                Submit an Article
-              </Link>
-            </nav>
-          </header>
+        <Flex col className="min-h-screen divide-y divide-surface1">
+          <Header />
+          {children}
         </Flex>
-
-        <div className="min-h-screen max-w-[1280px] mx-auto">{children}</div>
 
         <Footer />
       </body>
     </html>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="border-t border-surface1 bg-background mt-24">
-      <div className="container max-w-[1280px] mx-auto flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
-        <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-          <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-            Copyright © {new Date().getFullYear()} Tech Cringe. All rights
-            reserved.
-          </p>
-        </div>
-        <div className="flex items-center space-x-4">
-          <Link
-            href="https://github.com/tehccringe"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Github className="h-5 w-5 text-muted-foreground hover:text-foreground" />
-            <span className="sr-only">
-              GitHub - where microsoft uses your code to train ai (so your job
-              is 100% safe)
-            </span>
-          </Link>
-          <Link
-            href="https://x.com/tehccringe"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <XLogo className="size-5 fill-current hover:text-foreground" />
-            <span className="sr-only">
-              X - formerly twitter, before elon saved democracy
-            </span>
-          </Link>
-        </div>
-      </div>
-    </footer>
   );
 }
