@@ -36,7 +36,7 @@ const HeaderBase = styled("header", {
 });
 
 const HeaderContent = styled(Flex, {
-  base: "max-w-[960px] w-full",
+  base: "max-w-[960px] w-full max-md:flex-col max-md:items-center max-md:gap-4",
 });
 
 const NavLink = styled("a", {
