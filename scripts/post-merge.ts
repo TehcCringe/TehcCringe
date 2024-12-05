@@ -116,6 +116,8 @@ async function run({ github, context, core }: ScriptParams) {
   }
 
   const deploymentInterval = setInterval(async () => {
+    console.log("Checking for new articles...")
+
     let allArticlesDeployed = true
 
     for (const article of articleSlugs) {
@@ -138,6 +140,8 @@ async function run({ github, context, core }: ScriptParams) {
 
     clearInterval(deploymentInterval)
   }, 10000)
+
+  core.setOutput("Broadcast", `${articleSlugs.length} articles`)
 }
 
 export { run }
