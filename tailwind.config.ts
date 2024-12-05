@@ -1,5 +1,5 @@
-import type { Config } from "tailwindcss";
-import catppuccin from "@catppuccin/tailwindcss";
+import type { Config } from "tailwindcss"
+import catppuccin from "@catppuccin/tailwindcss"
 
 export default {
   content: [
@@ -20,4 +20,4 @@ export default {
       defaultFlavour: "mocha",
     }),
   ],
-} satisfies Config;
+} satisfies Config

@@ -1,34 +1,34 @@
-"use client";
+"use client"
 
-import { styled } from "react-tailwind-variants";
+import { styled } from "react-tailwind-variants"
 import {
   ComponentProps,
   forwardRef,
   useEffect,
   useImperativeHandle,
   useRef,
-} from "react";
-import { twMerge } from "tailwind-merge";
-import hljs from "highlight.js";
+} from "react"
+import { twMerge } from "tailwind-merge"
+import hljs from "highlight.js"
 
 export const Pre = styled("pre", {
   base: "text-sm bg-surface0 p-2",
-});
+})
 
 export const Code = forwardRef<HTMLElement, ComponentProps<"code">>(
   ({ className, children, ...props }, ref) => {
-    const codeRef = useRef<HTMLElement>(null);
+    const codeRef = useRef<HTMLElement>(null)
 
-    useImperativeHandle(ref, () => codeRef.current as HTMLElement, [codeRef]);
+    useImperativeHandle(ref, () => codeRef.current as HTMLElement, [codeRef])
 
     useEffect(() => {
       if (codeRef.current && className?.includes("lang-")) {
-        hljs.highlightElement(codeRef.current);
+        hljs.highlightElement(codeRef.current)
 
         // hljs won't reprocess the element unless this attribute is removed
-        codeRef.current.removeAttribute("data-highlighted");
+        codeRef.current.removeAttribute("data-highlighted")
       }
-    }, [className, children, ref]);
+    }, [className, children, ref])
 
     return (
       <code
@@ -38,8 +38,8 @@ export const Code = forwardRef<HTMLElement, ComponentProps<"code">>(
       >
         {children}
       </code>
-    );
-  }
-);
+    )
+  },
+)
 
-Code.displayName = "Code";
+Code.displayName = "Code"

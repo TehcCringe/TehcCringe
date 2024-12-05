@@ -1,19 +1,19 @@
-"use client";
+"use client"
 
-import Markdown, { MarkdownToJSX } from "markdown-to-jsx";
-import { H1, H2, H3, H4, H5, H6 } from "./headers";
-import { Image } from "./image";
-import { Code, Pre } from "./code";
-import { LI, OL, UL } from "./lists";
-import { P, A, Blockquote, HR } from "./paragraph";
-import { Table, TBody, TD, TH, THead, TR } from "./table";
+import Markdown, { MarkdownToJSX } from "markdown-to-jsx"
+import { H1, H2, H3, H4, H5, H6 } from "./headers"
+import { Image } from "./image"
+import { Code, Pre } from "./code"
+import { LI, OL, UL } from "./lists"
+import { P, A, Blockquote, HR } from "./paragraph"
+import { Table, TBody, TD, TH, THead, TR } from "./table"
 
 export default function MarkdownRenderer({
   children,
   overrides = {},
 }: {
-  children: string;
-  overrides?: Partial<MarkdownToJSX.Overrides>;
+  children: string
+  overrides?: Partial<MarkdownToJSX.Overrides>
 }) {
   return (
     <Markdown
@@ -48,5 +48,5 @@ export default function MarkdownRenderer({
     >
       {children}
     </Markdown>
-  );
+  )
 }

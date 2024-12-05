@@ -1,37 +1,37 @@
-import { ArticleProvider } from "@/app/components/article-provider";
-import MarkdownRenderer from "@/app/components/markdown";
-import Flex from "@/app/components/ui/flex";
-import { getAllArticles, getArticle } from "@/app/lib/articles";
-import { cpSync } from "fs";
-import { ArrowLeftIcon } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { join } from "path";
-import "./highlight.css";
+import { ArticleProvider } from "@/app/components/article-provider"
+import MarkdownRenderer from "@/app/components/markdown"
+import Flex from "@/app/components/ui/flex"
+import { getAllArticles, getArticle } from "@/app/lib/articles"
+import { cpSync } from "fs"
+import { ArrowLeftIcon } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
+import { join } from "path"
+import "./highlight.css"
 
 export async function generateStaticParams() {
-  const articles = getAllArticles();
+  const articles = getAllArticles()
 
   // Copy articles to public/assets at build time to ensure assets are available
-  articles.forEach((article) => {
-    const assetDir = join(process.cwd(), "public", "assets", article.slug);
-    const articleDir = join(process.cwd(), "articles", article.slug);
+  articles.forEach(article => {
+    const assetDir = join(process.cwd(), "public", "assets", article.slug)
+    const articleDir = join(process.cwd(), "articles", article.slug)
 
-    cpSync(articleDir, assetDir, { recursive: true });
-  });
+    cpSync(articleDir, assetDir, { recursive: true })
+  })
 
-  return articles.map((article) => ({ slug: article.slug }));
+  return articles.map(article => ({ slug: article.slug }))
 }
 
 export default async function Page({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string }>
 }) {
-  const { slug } = await params;
+  const { slug } = await params
 
-  const article = getArticle(slug);
-  const image = await import(`@/articles/${slug}/cover.png`);
+  const article = getArticle(slug)
+  const image = await import(`@/articles/${slug}/cover.png`)
 
   return (
     <Flex col p={4} align="center">
@@ -59,8 +59,8 @@ export default async function Page({
         </ArticleProvider>
       </Flex>
     </Flex>
-  );
+  )
 }
 
-export const dynamicParams = false;
-export const dynamic = "force-static";
+export const dynamicParams = false
+export const dynamic = "force-static"
