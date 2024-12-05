@@ -1,11 +1,11 @@
 import { GitHub } from "@actions/github/lib/utils"
 import { Context } from "@actions/github/lib/context"
 import * as core from "@actions/core"
-import { existsSync } from "fs"
+import { existsSync, readFileSync } from "fs"
 import { dirname, join } from "path"
 import { getArticle } from "@/app/lib/articles"
 import TwitterApi from "twitter-api-v2"
-import { EmbedBuilder, WebhookClient } from "discord.js"
+import { AttachmentBuilder, EmbedBuilder, WebhookClient } from "discord.js"
 
 interface ScriptParams {
   github: InstanceType<typeof GitHub>
@@ -91,6 +91,7 @@ async function run({ github, context, core }: ScriptParams) {
     const article = getArticle(slug)
 
     const articleUrl = `https://tehccringe.com/news/${slug}`
+    const coverImagePath = join(process.cwd(), "articles", slug, "cover.png")
 
     const shortenedUrl = await fetch(
       `https://tinyurl.com/api-create.php?url=${articleUrl}`,
@@ -98,9 +99,7 @@ async function run({ github, context, core }: ScriptParams) {
     const shortenedUrlWithoutHttp = shortenedUrl.replace(/^https?:\/\//, "")
 
     // Twitter
-    const mediaId = await client.v1.uploadMedia(
-      join(process.cwd(), "articles", slug, "cover.png"),
-    )
+    const mediaId = await client.v1.uploadMedia(coverImagePath)
     await client.v2.tweet(article.data.title + " " + shortenedUrlWithoutHttp, {
       media: {
         media_ids: [mediaId],
@@ -108,12 +107,14 @@ async function run({ github, context, core }: ScriptParams) {
     })
 
     // Discord
+    const cover = readFileSync(coverImagePath)
+    const attachment = new AttachmentBuilder(cover, { name: "cover.png" })
     const embed = new EmbedBuilder()
       .setTitle(article.data.title)
       .setURL(articleUrl)
-      .setImage("https://tehccringe.com/assets/" + slug + "/cover.png")
+      .setImage("attachment://cover.png")
 
-    await webhook.send({ embeds: [embed] })
+    await webhook.send({ embeds: [embed], files: [attachment] })
 
     console.log("Successfully Broadcasted:", article.data.title)
   }
