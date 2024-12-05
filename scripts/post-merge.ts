@@ -73,7 +73,7 @@ async function run({ github, context, core }: ScriptParams) {
         file.filename.endsWith("index.md"),
     )
     .filter(file => existsSync(file.filename))
-    .map(file => dirname(file.filename).split("/").at(-1))
+    .map(file => dirname(file.filename).split("/").at(1))
     .filter(slug => typeof slug === "string")
 
   console.log("Added Articles:", articleSlugs)
@@ -111,7 +111,7 @@ async function run({ github, context, core }: ScriptParams) {
     const embed = new EmbedBuilder()
       .setTitle(article.data.title)
       .setURL(articleUrl)
-      .setImage(article.cover)
+      .setImage("https://tehccringe.com/assets/" + slug + "/cover.png")
 
     await webhook.send({ embeds: [embed] })
 
@@ -119,9 +119,7 @@ async function run({ github, context, core }: ScriptParams) {
   }
 
   const deploymentInterval = setInterval(async () => {
-    console.log("Checking for new articles...")
-
-    let allArticlesDeployed = true
+    console.log("Checking if added articles have been deployed...")
 
     for (const article of articleSlugs) {
       const content = await fetch(`https://tehccringe.com/assets/${article}`)
@@ -129,16 +127,11 @@ async function run({ github, context, core }: ScriptParams) {
         .catch(() => null)
 
       if (!content) {
-        allArticlesDeployed = false
-        break
+        console.log(`Awaiting deployment of "${article}". Retrying in 10 seconds`)
+        return
       }
 
       await broadcastArticle(article)
-    }
-
-    if (!allArticlesDeployed) {
-      console.log("Awaiting deployment of articles. Retrying in 10 seconds")
-      return
     }
 
     clearInterval(deploymentInterval)
