@@ -1,6 +1,6 @@
 "use client";
 
-import Markdown from "markdown-to-jsx";
+import Markdown, { MarkdownToJSX } from "markdown-to-jsx";
 import { H1, H2, H3, H4, H5, H6 } from "./headers";
 import { Image } from "./image";
 import { Code, Pre } from "./code";
@@ -8,7 +8,13 @@ import { LI, OL, UL } from "./lists";
 import { P, A, Blockquote, HR } from "./paragraph";
 import { Table, TBody, TD, TH, THead, TR } from "./table";
 
-export default function MarkdownRenderer({ children }: { children: string }) {
+export default function MarkdownRenderer({
+  children,
+  overrides = {},
+}: {
+  children: string;
+  overrides?: Partial<MarkdownToJSX.Overrides>;
+}) {
   return (
     <Markdown
       options={{
@@ -35,6 +41,7 @@ export default function MarkdownRenderer({ children }: { children: string }) {
           td: TD,
           a: A,
           blockquote: Blockquote,
+          ...overrides,
         },
       }}
       className="flex flex-col gap-4"
