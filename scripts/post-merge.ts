@@ -73,10 +73,10 @@ async function run({ github, context, core }: ScriptParams) {
         file.filename.endsWith("index.md"),
     )
     .filter(file => existsSync(file.filename))
-    .map(file => dirname(file.filename).at(-1))
+    .map(file => dirname(file.filename).split("/").at(-1))
     .filter(slug => typeof slug === "string")
 
-  console.log("Added files", articleSlugs)
+  console.log("Added Articles:", articleSlugs)
 
   // Time out the CI job after 15 minutes
   setTimeout(
