@@ -1,5 +1,5 @@
-import MarkdownRenderer from "../components/markdown";
-import Flex from "../components/ui/flex";
+import MarkdownRenderer from "../components/markdown"
+import Flex from "../components/ui/flex"
 
 export default function About() {
   return (
@@ -29,5 +29,5 @@ If you're not sure where to start, check out some of the [Pull Requests](https:/
         </MarkdownRenderer>
       </Flex>
     </Flex>
-  );
+  )
 }

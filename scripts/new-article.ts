@@ -1,14 +1,9 @@
-import inquirer from "inquirer";
-import {
-  existsSync,
-  mkdirSync,
-  readdirSync,
-  writeFileSync,
-} from "fs";
-import sharp from "sharp";
-import { slugify } from "@/app/lib/utils";
-import { join } from "path";
-import chalk from "chalk";
+import inquirer from "inquirer"
+import { existsSync, mkdirSync, readdirSync, writeFileSync } from "fs"
+import sharp from "sharp"
+import { slugify } from "@/app/lib/utils"
+import { join } from "path"
+import chalk from "chalk"
 
 const res = await inquirer.prompt([
   {
@@ -16,21 +11,21 @@ const res = await inquirer.prompt([
     message: "Article Title",
     name: "title",
     validate(value) {
-      const articlesDir = join(process.cwd(), "articles");
-      const articlesChildren = readdirSync(articlesDir);
+      const articlesDir = join(process.cwd(), "articles")
+      const articlesChildren = readdirSync(articlesDir)
 
       if (articlesChildren.includes(slugify(value))) {
-        return "Article with this title already exists";
+        return "Article with this title already exists"
       }
 
-      return true;
+      return true
     },
   },
   {
     type: "input",
     message: "Path to cover image",
     name: "cover",
-    validate: async (value) => {
+    validate: async value => {
       try {
         if (
           !value.endsWith(".jpg") &&
@@ -38,33 +33,33 @@ const res = await inquirer.prompt([
           !value.endsWith(".jpeg") &&
           !value.endsWith(".webp")
         ) {
-          return "Unsupported extension. Expected one of: .jpg, .png, .jpeg, .webp";
+          return "Unsupported extension. Expected one of: .jpg, .png, .jpeg, .webp"
         }
 
-        const fileExists = existsSync(value);
+        const fileExists = existsSync(value)
 
         if (!fileExists) {
-          return "File does not exist";
+          return "File does not exist"
         }
 
-        const image = sharp(value);
-        const metadata = await image.metadata();
+        const image = sharp(value)
+        const metadata = await image.metadata()
 
         if (!metadata.width || !metadata.height) {
-          return "Image dimensions are not available";
+          return "Image dimensions are not available"
         }
 
         if (metadata.width < 878 || metadata.height < 497) {
-          return "Image dimensions must be at least 878x497";
+          return "Image dimensions must be at least 878x497"
         }
 
         if (metadata.height > metadata.width) {
-          return "Image height must be less than or equal to image width";
+          return "Image height must be less than or equal to image width"
         }
 
-        return true;
+        return true
       } catch (error) {
-        return (error as Error).message;
+        return (error as Error).message
       }
     },
   },
@@ -75,10 +70,10 @@ const res = await inquirer.prompt([
     choices: ["Github", "𝕏 / Twitter", "Post anonymously"],
     default: "Github",
   },
-]);
+])
 
-let author: string | null = null;
-let displayName: string | null = null;
+let author: string | null = null
+let displayName: string | null = null
 
 if (res.platform !== "Post anonymously") {
   author = (
@@ -89,14 +84,14 @@ if (res.platform !== "Post anonymously") {
         name: "author",
         validate(value) {
           if (!value.match(/^@?[a-zA-Z0-9_]{2,}$/)) {
-            return `Invalid ${res.platform} handle`;
+            return `Invalid ${res.platform} handle`
           }
 
-          return true;
+          return true
         },
       },
     ])
-  ).author;
+  ).author
 
   displayName = (
     await inquirer.prompt([
@@ -107,56 +102,58 @@ if (res.platform !== "Post anonymously") {
         default: author ?? "",
       },
     ])
-  ).displayName;
+  ).displayName
 }
 
-const slug = slugify(res.title);
+const slug = slugify(res.title)
 
-mkdirSync(join(process.cwd(), "articles", slug));
+mkdirSync(join(process.cwd(), "articles", slug))
 
-const articleDir = join(process.cwd(), "articles", slug);
+const articleDir = join(process.cwd(), "articles", slug)
 
 const cover = await sharp(res.cover)
   .resize(878, null)
   .jpeg({ mozjpeg: true })
-  .toBuffer();
+  .toBuffer()
 
-writeFileSync(join(articleDir, "cover.png"), cover);
+writeFileSync(join(articleDir, "cover.png"), cover)
 
-let handle: string | null = null;
+let handle: string | null = null
 
 if (author) {
-  const strippedHandle = author.replace(/^@/, "");
+  const strippedHandle = author.replace(/^@/, "")
 
   if (res.platform === "Github") {
-    handle = "https://github.com/" + strippedHandle;
+    handle = "https://github.com/" + strippedHandle
   } else {
-    handle = "https://x.com/" + strippedHandle;
+    handle = "https://x.com/" + strippedHandle
   }
 }
 
 const articleData: Record<string, string> = {
   title: res.title,
-  date: new Date().toISOString().split('T')[0],
-  tags: `\n  - tech\n  - news\n  - neovim`
-};
-
-if(handle) {
-  articleData.author = handle;
+  date: new Date().toISOString().split("T")[0],
+  tags: `\n  - tech\n  - news\n  - neovim`,
 }
 
-if(displayName) {
-  articleData.displayName = displayName;
+if (handle) {
+  articleData.author = handle
+}
+
+if (displayName) {
+  articleData.displayName = displayName
 }
 
 writeFileSync(
   join(articleDir, "index.md"),
   `---
-${Object.entries(articleData).map(([key, value]) => `${key}: ${value}`).join("\n")}
+${Object.entries(articleData)
+  .map(([key, value]) => `${key}: ${value}`)
+  .join("\n")}
 ---
 
 Bacon ipsum dolor amet pancetta short ribs doner, meatball pork loin pastrami bacon t-bone ham spare ribs
-`
-);
+`,
+)
 
-console.log(chalk.green("Article created at"), chalk.cyan(`articles/${slug}`));
+console.log(chalk.green("Article created at"), chalk.cyan(`articles/${slug}`))

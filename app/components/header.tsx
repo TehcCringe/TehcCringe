@@ -1,7 +1,7 @@
-import { styled } from "react-tailwind-variants";
-import LogoIcon from "@/public/logo/svg/icon.svg";
-import Flex from "./ui/flex";
-import Link from "next/link";
+import { styled } from "react-tailwind-variants"
+import LogoIcon from "@/public/logo/svg/icon.svg"
+import Flex from "./ui/flex"
+import Link from "next/link"
 
 export default function Header() {
   return (
@@ -28,21 +28,21 @@ export default function Header() {
         </Flex>
       </HeaderContent>
     </HeaderBase>
-  );
+  )
 }
 
 const HeaderBase = styled("header", {
   base: "flex justify-center",
-});
+})
 
 const HeaderContent = styled(Flex, {
   base: "max-w-[960px] w-full max-md:flex-col max-md:items-center max-md:gap-4",
-});
+})
 
 const NavLink = styled("a", {
   base: "text-subtext0 underline hover:text-yellow",
-});
+})
 
 export const LogoHeader = styled("span", {
   base: "font-black text-text text-5xl leading-none tracking-tighter",
-});
+})

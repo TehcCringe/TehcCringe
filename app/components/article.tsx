@@ -1,10 +1,10 @@
-import Link from "next/link";
-import { Article as ArticleType } from "../lib/articles";
-import Flex from "./ui/flex";
-import Image from "next/image";
+import Link from "next/link"
+import { Article as ArticleType } from "../lib/articles"
+import Flex from "./ui/flex"
+import Image from "next/image"
 
 export default async function Article({ article }: { article: ArticleType }) {
-  const image = await import(`@/articles/${article.slug}/cover.png`);
+  const image = await import(`@/articles/${article.slug}/cover.png`)
 
   return (
     <Link href={`/news/${article.slug}`}>
@@ -19,5 +19,5 @@ export default async function Article({ article }: { article: ArticleType }) {
         </Flex>
       </Flex>
     </Link>
-  );
+  )
 }
