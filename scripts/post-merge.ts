@@ -127,7 +127,9 @@ async function run({ github, context, core }: ScriptParams) {
         .catch(() => null)
 
       if (!content) {
-        console.log(`Awaiting deployment of "${article}". Retrying in 10 seconds`)
+        console.log(
+          `Awaiting deployment of "${article}". Retrying in 10 seconds`,
+        )
         return
       }
 

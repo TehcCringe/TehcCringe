@@ -133,7 +133,7 @@ if (author) {
 const articleData: Record<string, string> = {
   title: res.title,
   date: new Date().toISOString().split("T")[0],
-  tags: `\n  - tech\n  - news\n  - neovim`,
+  tags: `\n  - news\n  - tech`,
 }
 
 if (handle) {

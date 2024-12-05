@@ -8,6 +8,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { join } from "path"
 import "./highlight.css"
+import { H1 } from "@/app/components/markdown/headers"
+import { A } from "@/app/components/markdown/paragraph"
 
 export async function generateStaticParams() {
   const articles = getAllArticles()
@@ -31,6 +33,12 @@ export default async function Page({
   const { slug } = await params
 
   const article = getArticle(slug)
+  const allArticles = getAllArticles()
+
+  const index = allArticles.findIndex(article => article.slug === slug)
+  const prevArticle = allArticles[index - 1]
+  const nextArticle = allArticles[index + 1]
+
   const image = await import(`@/articles/${slug}/cover.png`)
 
   return (
@@ -45,6 +53,39 @@ export default async function Page({
             <span>Back</span>
           </Link>
         </Flex>
+        <H1>{article.data.title}</H1>
+
+        <Flex col gap={2} width="full">
+          {article.data.author && (
+            <p>
+              By{" "}
+              <A href={article.data.author} target="_blank">
+                {article.data.displayName ??
+                  article.data.author.split("/").at(-1)}
+              </A>
+            </p>
+          )}
+          <p>
+            Published{" "}
+            <span className="text-peach">
+              {article.data.date.toLocaleDateString()}
+            </span>
+          </p>
+          {article.data.tags && (
+            <p>
+              Tags:{" "}
+              {article.data.tags.map((tag, i) => (
+                <>
+                  <span className="text-green bg-surface0" key={i}>
+                    [#{tag}]
+                  </span>
+                  {i < article.data.tags!.length - 1 && " "}
+                </>
+              ))}
+            </p>
+          )}
+        </Flex>
+
         <Image
           src={image.default}
           alt={article.data.title}
@@ -53,10 +94,41 @@ export default async function Page({
           className="border border-surface0"
         />
         <ArticleProvider article={article}>
-          <MarkdownRenderer>
-            {`# ${article.data.title}\n\n` + article.content}
-          </MarkdownRenderer>
+          <MarkdownRenderer>{article.content}</MarkdownRenderer>
         </ArticleProvider>
+
+        <Flex width="full" gap={2}>
+          <Flex grow noBasis asChild={prevArticle ? true : undefined} p={2}>
+            {prevArticle && (
+              <Link
+                href={`/news/${prevArticle?.slug}`}
+                className="text-left border border-surface0"
+              >
+                <Flex col gap={1} align="start">
+                  <span className="text-sky">Previous</span>
+                  <p className="text-lg font-semibold">
+                    {prevArticle.data.title}
+                  </p>
+                </Flex>
+              </Link>
+            )}
+          </Flex>
+          <Flex grow noBasis asChild={nextArticle ? true : undefined} p={2}>
+            {nextArticle && (
+              <Link
+                href={`/news/${nextArticle?.slug}`}
+                className="text-right border border-surface0"
+              >
+                <Flex col gap={1} align="end">
+                  <span className="text-sky">Next</span>
+                  <p className="text-lg font-semibold">
+                    {nextArticle.data.title}
+                  </p>
+                </Flex>
+              </Link>
+            )}
+          </Flex>
+        </Flex>
       </Flex>
     </Flex>
   )

@@ -6,7 +6,7 @@ An open-source satirical tech news outlet that anyone can contribute to
 - [Website](https://tehccringe.com)
 - [Github](https://github.com/TehcCringe/TehcCringe)
 
-Join the [Discord](https://discord.gg/vSwdyDAsUn) for support, updates, and hilarious discussions
+Join the [Discord](https://tehccringe.com/discord) for support, updates, and hilarious discussions
 
 ## how it works
 

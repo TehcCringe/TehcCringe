@@ -82,7 +82,7 @@ date: 2024-11-21
 
 ### Tags
 
-Tags for the article.
+Tags for the article. The first tag will be used as the article's category. If not provided, the category will be `NEWS`.
 
 - Type: `list of strings`
 - Required: `no`

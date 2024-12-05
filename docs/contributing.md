@@ -51,4 +51,4 @@ TehcCringe is a statically-generated Next.js site. To develop locally:
 
 1. Funny commit messages are encouraged
 2. Try to keep PRs as a single commit to avoid causing merge conflicts (optional)
-3. If you're unsure about something, you can ask for help in the [Discord](https://discord.gg/vSwdyDAsUn)
+3. If you're unsure about something, you can ask for help in the [Discord](https://tehccringe.com/discord)
