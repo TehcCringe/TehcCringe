@@ -44,5 +44,5 @@ const NavLink = styled("a", {
 });
 
 export const LogoHeader = styled("span", {
-  base: "font-black text-text text-4xl leading-none tracking-tighter",
+  base: "font-black text-text text-5xl leading-none tracking-tighter",
 });
