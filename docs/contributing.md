@@ -16,7 +16,7 @@ If you're interested in writing your own article or contributing to the project,
 
 - Read the [Rules](rules.md)
 - Read the [Style Guide](style-guide.md)
-- Read the [Metadata Docs](metadata.md)
+- Read the [Article Syntax Reference](syntax.md)
 
 1. Think of a good headline and cover image for your article
 2. Run `bun new:article` to open an interactive prompt
