@@ -22,7 +22,11 @@ export default async function Article({ article }: { article: ArticleType }) {
         <Flex col p={2} gap={1} className="bg-surface0">
           <p>
             <span className="text-green">
-              {(article.data.tags?.[0] ?? "NEWS").toUpperCase()}
+              {(
+                article.data.category ??
+                article.data.tags?.[0] ??
+                "NEWS"
+              ).toUpperCase()}
             </span>{" "}
             <span className="text-subtext0">{"•"}</span>{" "}
             <span className="text-subtext1">

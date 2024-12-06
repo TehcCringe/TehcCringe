@@ -2,6 +2,7 @@
 
 import { forwardRef } from "react"
 import { styled } from "react-tailwind-variants"
+import { twMerge } from "tailwind-merge"
 
 const HeaderBase = (level: 1 | 2 | 3 | 4 | 5 | 6) => {
   const hLevel: `h${1 | 2 | 3 | 4 | 5 | 6}` = `h${level}`
@@ -9,7 +10,7 @@ const HeaderBase = (level: 1 | 2 | 3 | 4 | 5 | 6) => {
   const header = forwardRef<HTMLHeadingElement, React.ComponentProps<"h1">>(
     ({ className, children, ...props }, ref) => {
       return (
-        <h1 ref={ref} className={className} {...props}>
+        <h1 ref={ref} className={twMerge(className, "w-full")} {...props}>
           {"#".repeat(level)} {children}
         </h1>
       )
