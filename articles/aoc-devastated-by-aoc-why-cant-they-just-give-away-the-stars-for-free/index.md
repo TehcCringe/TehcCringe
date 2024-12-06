@@ -2,9 +2,9 @@
 title: AOC devastated by AOC - “why can’t they just give away the stars for free?”
 date: 2024-12-03
 tags: 
-  - tech
   - news
-  - neovim
+  - politics
+  - advent of code
 author: https://x.com/IroncladDev
 displayName: IroncladDev
 ---
