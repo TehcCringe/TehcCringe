@@ -30,25 +30,37 @@ TehcCringe is a statically-generated Next.js site. To develop locally:
 1. Run `bun dev` to start the development server
 2. Navigate to [http://localhost:3000](http://localhost:3000) to view the website
 
-## Pull Requests
+## pull requests
+
+There is a default template for pull requests.
+
+To check off an item, add an `x` in between the brackets `[ ]`. For example:
+
+```md
+## would your mom approve of this PR?
+
+- [x] Yes 
+- [ ] No
+
+If you selected no, please explain why
+```
 
 ### new articles
 
-1. Set the PR title to the article headline
-2. No description required
+1. Under **what does this PR do?**, select **Adds a new article**
+2. Select **If you are adding a new article, why is it funny?** and provide a brief explanation of why the article is funny
+3. Check off everything in the checklist
+4. Ensure your mom would approve of the PR
 
-### documentation
+### features, bugs, and tech debt
 
-1. Prefix the PR title with `docs:`
-2. Briefly describe your changes
-
-### website/ci/script changes
-
-1. Prefix the PR title with `fix:`, `feat:`, or `chore:`
-2. Describe your changes in detail
+1. Under **what does this PR do?**, select **Fixes a bug / Implements a feature**
+2. Select **If you are implementing a feature, why is it important?** and provide a detailed explanation of why the feature is important
+3. Check off everything in the checklist
+4. Select **Yes** under **would your mom approve of this PR?**
 
 ### misc
 
 1. Funny commit messages are encouraged
-2. Try to keep PRs as a single commit to avoid causing merge conflicts (optional)
-3. If you're unsure about something, you can ask for help in the [Discord](https://tehccringe.com/discord)
+2. Try to squash your commits to avoid causing merge conflicts (optional, but preferred)
+3. If you're unsure about something or would like to get in touch with a maintainer, you can ask for help in the [Discord](https://tehccringe.com/discord)

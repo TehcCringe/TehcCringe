@@ -1,18 +1,20 @@
-# New Article
+## what does this PR do?
 
-This PR adds a new article to the TehcCringe website.
+- [ ] Adds a new article
+- [ ] Fixes a bug / Implements a feature (please describe below)
 
-## Justification
+## justification
 
-Why is this article funny?
+- [ ] If you are adding a new article, why is it funny? (please explain below)
+- [ ] If you are implementing a feature, why is it important? (please explain below)
 
-## Checklist
+## checklist
 
 - [ ] I have read the [contributing guide](https://github.com/TehcCringe/TehcCringe/blob/master/docs/contributing.md)
 - [ ] I have read the [rules](https://github.com/TehcCringe/TehcCringe/blob/master/docs/rules.md)
 - [ ] I have read the [style guide](https://github.com/TehcCringe/TehcCringe/blob/master/docs/style-guide.md)
 
-## Would your mom approve of this?
+## would your mom approve of this PR?
 
 - [ ] Yes
 - [ ] No
