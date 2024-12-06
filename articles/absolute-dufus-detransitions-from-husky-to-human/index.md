@@ -1,7 +1,7 @@
 ---
-title: "Absolute dufus de-transitions from Husky to Human"
+title: "Absolute Dufus™ De-Transitions from Husky to Human"
 date: 2024-12-06
-tags: 
+tags:
   - news
   - tech
   - neovim
