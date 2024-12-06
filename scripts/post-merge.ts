@@ -79,7 +79,7 @@ async function run({ github, context, core }: ScriptParams) {
   console.log("Added Articles:", articleSlugs)
 
   // Time out the CI job after 15 minutes
-  setTimeout(
+  const timeoutFallback = setTimeout(
     () => {
       core.setFailed("Process Timed out")
       return
@@ -136,6 +136,7 @@ async function run({ github, context, core }: ScriptParams) {
     }
 
     clearInterval(deploymentInterval)
+    clearTimeout(timeoutFallback)
   }, 10000)
 
   core.setOutput("Broadcast", `${articleSlugs.length} articles`)
