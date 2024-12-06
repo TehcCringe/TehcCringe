@@ -124,10 +124,8 @@ async function run({ github, context, core }: ScriptParams) {
 
     for (const article of articleSlugs) {
       const content = await fetch(`https://tehccringe.com/assets/${article}`)
-        .then(res => res.text())
-        .catch(() => null)
 
-      if (!content) {
+      if (content.status === 404) {
         console.log(
           `Awaiting deployment of "${article}". Retrying in 10 seconds`,
         )
