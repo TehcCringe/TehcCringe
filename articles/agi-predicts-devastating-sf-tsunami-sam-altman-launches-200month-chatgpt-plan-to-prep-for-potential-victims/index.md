@@ -5,8 +5,6 @@ tags:
   - news
   - openai
   - chatgpt
-author: https://x.com/IroncladDev
-displayName: IroncladDev
 ---
 
 After threatening to release an embarrassing SORA-generated AI video of Sam Altman, an anonymous source claims that AGI (Artificial General Intelligence) internally predicted a possible earthquake and tsunami around the San Francisco Bay Area.
