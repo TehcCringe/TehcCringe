@@ -13,6 +13,32 @@ const jetBrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "TehcCringe",
   description: "Open source satirical tech news outlet",
+  applicationName: "TehcCringe",
+  authors: [{ name: "TehcCringe Team", url: "https://github.com/TehcCringe" }],
+  keywords: ["tech", "news", "satire", "open source"],
+  icons: ["/logo/svg/filled.svg"],
+  twitter: {
+    images: [
+      {
+        url: "https://tehccringe.com/logo/png/cover.png",
+        width: 1600,
+        height: 1000,
+        alt: "TehcCringe Logo",
+        type: "image/png",
+      },
+    ],
+  },
+  openGraph: {
+    images: [
+      {
+        url: "https://tehccringe.com/logo/png/cover.png",
+        width: 1600,
+        height: 1000,
+        alt: "TehcCringe Logo",
+        type: "image/png",
+      },
+    ],
+  },
 }
 
 export default function RootLayout({

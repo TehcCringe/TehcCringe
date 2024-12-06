@@ -11,20 +11,7 @@ import "./highlight.css"
 import { H1 } from "@/app/components/markdown/headers"
 import { A } from "@/app/components/markdown/paragraph"
 import { Code } from "@/app/components/markdown/code"
-
-export async function generateStaticParams() {
-  const articles = getAllArticles()
-
-  // Copy articles to public/assets at build time to ensure assets are available
-  articles.forEach(article => {
-    const assetDir = join(process.cwd(), "public", "assets", article.slug)
-    const articleDir = join(process.cwd(), "articles", article.slug)
-
-    cpSync(articleDir, assetDir, { recursive: true })
-  })
-
-  return articles.map(article => ({ slug: article.slug }))
-}
+import { Metadata } from "next"
 
 export default async function Page({
   params,
@@ -149,6 +136,41 @@ export default async function Page({
       </Flex>
     </Flex>
   )
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+
+  const article = getArticle(slug)
+
+  return {
+    title: article.data.title,
+    description: null,
+    openGraph: {
+      images: [`https://tehccringe.com/assets/${slug}/cover.png`],
+    },
+    twitter: {
+      images: [`https://tehccringe.com/assets/${slug}/cover.png`],
+    },
+  }
+}
+
+export async function generateStaticParams() {
+  const articles = getAllArticles()
+
+  // Copy articles to public/assets at build time to ensure assets are available
+  articles.forEach(article => {
+    const assetDir = join(process.cwd(), "public", "assets", article.slug)
+    const articleDir = join(process.cwd(), "articles", article.slug)
+
+    cpSync(articleDir, assetDir, { recursive: true })
+  })
+
+  return articles.map(article => ({ slug: article.slug }))
 }
 
 export const dynamicParams = false

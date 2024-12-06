@@ -123,7 +123,7 @@ async function run({ github, context, core }: ScriptParams) {
     console.log("Checking if added articles have been deployed...")
 
     for (const article of articleSlugs) {
-      const content = await fetch(`https://tehccringe.com/assets/${article}`)
+      const content = await fetch(`https://tehccringe.com/news/${article}`)
 
       if (content.status === 404) {
         console.log(
