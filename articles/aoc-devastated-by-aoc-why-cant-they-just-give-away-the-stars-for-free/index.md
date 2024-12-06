@@ -6,7 +6,7 @@ tags:
   - news
   - neovim
 author: https://x.com/IroncladDev
-displayName: @IroncladDev
+displayName: IroncladDev
 ---
 
 Bacon ipsum dolor amet pancetta short ribs doner, meatball pork loin pastrami bacon t-bone ham spare ribs
