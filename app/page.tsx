@@ -12,7 +12,7 @@ export default async function Home() {
 
   return (
     <Flex col p={4} align="center">
-      <Flex wrap gap={4} width="full" className="max-w-720px">
+      <Flex wrap gap={4} width="full" justify="center" className="max-w-[1400px]">
         {byNewest.map(article => (
           <Article article={article} key={article.slug} />
         ))}
