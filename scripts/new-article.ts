@@ -148,7 +148,10 @@ writeFileSync(
   join(articleDir, "index.md"),
   `---
 ${Object.entries(articleData)
-  .map(([key, value]) => `${key}: ${value}`)
+  .map(
+    ([key, value]) =>
+      `${key}: ${key === "tags" || key === "date" ? value : `"${value}"`}`,
+  )
   .join("\n")}
 ---
 

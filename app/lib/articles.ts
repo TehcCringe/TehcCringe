@@ -10,6 +10,7 @@ export const articleDataSchema = z.object({
   author: z.string().nullish(),
   displayName: z.string().nullish(),
   tags: z.array(z.string()).nullish(),
+  category: z.string().nullish(),
 })
 
 export const articleSchema = z.object({

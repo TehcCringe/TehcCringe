@@ -10,6 +10,7 @@ import { join } from "path"
 import "./highlight.css"
 import { H1 } from "@/app/components/markdown/headers"
 import { A } from "@/app/components/markdown/paragraph"
+import { Code } from "@/app/components/markdown/code"
 
 export async function generateStaticParams() {
   const articles = getAllArticles()
@@ -71,6 +72,22 @@ export default async function Page({
               {article.data.date.toLocaleDateString()}
             </span>
           </p>
+          {article.data.category && (
+            <p>
+              <span className="text-sm text-overlay2">
+                @deprecated - use <Code>tags</Code> instead of{" "}
+                <Code>category</Code>
+              </span>
+              <br />
+              <span className="underline decoration-wavy decoration-red">
+                Category
+              </span>
+              :{" "}
+              <span className="text-maroon bg-surface0">
+                [{article.data.category}]
+              </span>
+            </p>
+          )}
           {article.data.tags && (
             <p>
               Tags:{" "}
