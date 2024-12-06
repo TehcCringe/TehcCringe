@@ -1,11 +1,10 @@
 ---
 title: Rust Developer Arrested at Dog Park
 date: 2024-11-21
-category: Furries
 tags: 
   - tech
   - news
-  - neovim
+  - furries
   - rust
 author: https://x.com/ChristianThePav
 displayName: ChristianPav
