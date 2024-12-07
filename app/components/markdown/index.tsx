@@ -5,7 +5,7 @@ import { H1, H2, H3, H4, H5, H6 } from "./headers"
 import { Image } from "./image"
 import { Code, Pre } from "./code"
 import { LI, OL, UL } from "./lists"
-import { P, A, Blockquote, HR } from "./paragraph"
+import { P, A, Blockquote, HR, Span } from "./paragraph"
 import { Table, TBody, TD, TH, THead, TR } from "./table"
 
 export default function MarkdownRenderer({
@@ -45,6 +45,33 @@ export default function MarkdownRenderer({
         },
       }}
       className="flex flex-col gap-4"
+    >
+      {children}
+    </Markdown>
+  )
+}
+
+export function InlineMarkdownRenderer({
+  children,
+  overrides = {},
+}: {
+  children: string
+  overrides?: Partial<MarkdownToJSX.Overrides>
+}) {
+  return (
+    <Markdown
+      options={{
+        overrides: {
+          // Make all elements just be spans for article previews
+          code: Span,
+          a: Span,
+          strong: Span,
+          em: Span,
+          b: Span,
+          ...overrides,
+        },
+        forceInline: true,
+      }}
     >
       {children}
     </Markdown>

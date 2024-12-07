@@ -51,7 +51,7 @@ export default function Footer() {
 }
 
 const FooterBase = styled("footer", {
-  base: "border-t border-surface1 mt-24 flex items-center justify-center py-4",
+  base: "flex items-center justify-center py-4",
 })
 
 const FooterHeadContent = styled("div", {

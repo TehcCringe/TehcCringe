@@ -1,10 +1,10 @@
 "use client"
 
 import { createContext, useContext } from "react"
-import { Article } from "../lib/articles"
+import { ArticleType } from "../lib/articles"
 
 export interface ArticleContextValue {
-  article: Article
+  article: ArticleType
 }
 
 export const ArticleContext = createContext<ArticleContextValue | null>(null)
@@ -14,7 +14,7 @@ export function ArticleProvider({
   article,
 }: {
   children: React.ReactNode
-  article: Article
+  article: ArticleType
 }) {
   return (
     <ArticleContext.Provider value={{ article }}>
