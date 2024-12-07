@@ -20,13 +20,13 @@ export const articleSchema = z.object({
   data: articleDataSchema,
 })
 
-export type Article = z.infer<typeof articleSchema>
+export type ArticleType = z.infer<typeof articleSchema>
 
-export type ArticleData = z.infer<typeof articleDataSchema>
+export type ArticleDataType = z.infer<typeof articleDataSchema>
 
 export const articlesDir = join(process.cwd(), "articles")
 
-export function getAllArticles(): Array<Article> {
+export function getAllArticles(): Array<ArticleType> {
   const articleDirs = readdirSync(articlesDir)
 
   return articleDirs
@@ -39,10 +39,10 @@ export function getAllArticles(): Array<Article> {
         throw new Error(errorContent)
       }
     })
-    .filter(Boolean) as Array<Article>
+    .filter(Boolean) as Array<ArticleType>
 }
 
-export function getArticle(slug: string): Article {
+export function getArticle(slug: string): ArticleType {
   const articleDirPath = join(articlesDir, slug)
 
   const parsedArticle = matter.read(join(articleDirPath, "index.md"))

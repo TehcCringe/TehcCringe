@@ -51,12 +51,11 @@ export default function RootLayout({
       <body
         className={`${jetBrainsMono.className} antialiased bg-base text-text`}
       >
-        <Flex col className="min-h-screen divide-y divide-surface1">
+        <Flex col className="min-h-screen divide-y-2 divide-crust">
           <Header />
           {children}
+          <Footer />
         </Flex>
-
-        <Footer />
       </body>
     </html>
   )

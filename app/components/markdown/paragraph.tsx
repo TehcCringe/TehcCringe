@@ -17,3 +17,5 @@ export const Blockquote = styled("blockquote", {
 export const HR = styled("hr", {
   base: "border-b border-surface1 my-16 mx-auto max-w-[360px] w-full",
 })
+
+export const Span = styled("span", {})
