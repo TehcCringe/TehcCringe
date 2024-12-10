@@ -23,7 +23,9 @@ export default async function Page({
   const article = getArticle(slug)
   const allArticles = getAllArticles()
 
-  const index = allArticles.findIndex(article => article.slug === slug)
+  const index = allArticles
+    .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+    .findIndex(article => article.slug === slug)
   const prevArticle = allArticles[index - 1]
   const nextArticle = allArticles[index + 1]
 
@@ -35,10 +37,10 @@ export default async function Page({
         <Flex row justify="between" width="full">
           <Link
             href="/"
-            className="text-subtext0 flex gap-1 border-b border-subtext0 items-center"
+            className="text-sapphire flex gap-1 border-b border-sapphire items-center"
           >
             <ArrowLeftIcon className="w-4 h-4" />
-            <span>Back</span>
+            <span>Home</span>
           </Link>
         </Flex>
         <H1>{article.data.title}</H1>

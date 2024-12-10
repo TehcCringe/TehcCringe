@@ -15,11 +15,11 @@ export default function Footer() {
           <HeaderContainer>
             <Flex gap={2} asChild>
               <Link href="/">
-                <LogoIcon className="w-[48px] fill-mauve" />
+                <LogoIcon className="w-[36px] fill-mauve" />
                 <LogoHeader>TehcCringe</LogoHeader>
               </Link>
             </Flex>
-            <p className="max-sm:text-center">
+            <p className="max-sm:text-center text-subtext0">
               Open source satirical tech news outlet
             </p>
           </HeaderContainer>

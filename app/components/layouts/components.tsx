@@ -108,5 +108,5 @@ export const ContainerRow = styled(LayoutRow, {
 })
 
 export const ContainerCol = styled(LayoutCol, {
-  base: "border-x-2 border-crust w-full",
+  base: "border-x-2 border-crust w-full max-md:border-x-0",
 })
