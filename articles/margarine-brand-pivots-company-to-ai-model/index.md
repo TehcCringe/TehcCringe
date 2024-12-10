@@ -12,7 +12,7 @@ Popular [margarine brand](https://www.icantbelieveitsnotbutter.com) to rebrand t
 
 Sohy Bohie, co-founder of the company claims that they've been in the business of 'artificial', well before 'artificial intelligence' was ever a thing, and intends to file a lawsuit against OpenAI for gross patent infringement.
 
-It has also been confirmed that [Fabio](https://www.youtube.com/watch?v=xszIaNpYILY&t=14s) will return to feature in their new promotional commercial.
+It has also been confirmed that [Fabio](https://www.youtube.com/watch?v=xszIaNpYILY) will return to feature in their new promotional commercial.
 
 Fabio originally wanted to distance himself from the margarine monolith, after the company had been accused of "greasy" behavior in the past, but says that his career is "toast" anyway, and figures being involved is the butter way to avoid the "spread" of misinformation.
 
