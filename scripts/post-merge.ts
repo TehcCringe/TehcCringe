@@ -95,7 +95,7 @@ async function run({ github, context, core }: ScriptParams) {
     const shortenedUrlWithoutHttp = shortenedUrl.replace(/^https?:\/\//, "")
 
     const cover = readFileSync(coverImagePath)
-    const titleWithLink = cover + " " + shortenedUrlWithoutHttp
+    const titleWithLink = article.data.title + " " + shortenedUrlWithoutHttp
 
     // Twitter
     const mediaId = await xClient.v1.uploadMedia(coverImagePath)
