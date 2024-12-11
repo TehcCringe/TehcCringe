@@ -125,6 +125,7 @@ async function run({ github, context, core }: ScriptParams) {
     await bskyAgent.post({
       text: titleWithLink,
       embed: {
+        $type: "app.bsky.embed.images",
         images: [{ alt: titleWithLink, image: data.blob }],
       },
       createdAt: new Date().toISOString(),
