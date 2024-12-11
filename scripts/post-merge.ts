@@ -6,6 +6,7 @@ import { dirname, join } from "path"
 import { getArticle } from "@/app/lib/articles"
 import TwitterApi from "twitter-api-v2"
 import { AttachmentBuilder, EmbedBuilder, WebhookClient } from "discord.js"
+import { AtpAgent } from "@atproto/api"
 
 interface ScriptParams {
   github: InstanceType<typeof GitHub>
@@ -13,16 +14,11 @@ interface ScriptParams {
   core: typeof core
 }
 
-console.log("Checking ENV Types")
-console.table({
-  X_API_KEY: typeof process.env.X_API_KEY,
-  X_API_KEY_SECRET: typeof process.env.X_API_KEY_SECRET,
-  X_ACCESS_TOKEN: typeof process.env.X_ACCESS_TOKEN,
-  X_ACCESS_TOKEN_SECRET: typeof process.env.X_ACCESS_TOKEN_SECRET,
-  DISCORD_WEBHOOK_URL: typeof process.env.DISCORD_WEBHOOK_URL,
+const bskyAgent = new AtpAgent({
+  service: "https://bsky.social",
 })
 
-const client = new TwitterApi({
+const xClient = new TwitterApi({
   appKey: process.env.X_API_KEY as string,
   appSecret: process.env.X_API_KEY_SECRET as string,
   accessToken: process.env.X_ACCESS_TOKEN as string,
@@ -49,7 +45,7 @@ async function run({ github, context, core }: ScriptParams) {
     return
   }
 
-  const currentUser = await client.v2.me()
+  const currentUser = await xClient.v2.me()
 
   if (!currentUser) {
     core.setFailed("Failed to authenticate with Twitter API")
@@ -98,16 +94,18 @@ async function run({ github, context, core }: ScriptParams) {
     ).then(res => res.text())
     const shortenedUrlWithoutHttp = shortenedUrl.replace(/^https?:\/\//, "")
 
+    const cover = readFileSync(coverImagePath)
+    const titleWithLink = cover + " " + shortenedUrlWithoutHttp
+
     // Twitter
-    const mediaId = await client.v1.uploadMedia(coverImagePath)
-    await client.v2.tweet(article.data.title + " " + shortenedUrlWithoutHttp, {
+    const mediaId = await xClient.v1.uploadMedia(coverImagePath)
+    await xClient.v2.tweet(titleWithLink, {
       media: {
         media_ids: [mediaId],
       },
     })
 
     // Discord
-    const cover = readFileSync(coverImagePath)
     const attachment = new AttachmentBuilder(cover, { name: "cover.png" })
     const embed = new EmbedBuilder()
       .setTitle(article.data.title)
@@ -115,6 +113,18 @@ async function run({ github, context, core }: ScriptParams) {
       .setImage("attachment://cover.png")
 
     await webhook.send({ embeds: [embed], files: [attachment] })
+
+    // Bluesky
+    const { data } = await bskyAgent.uploadBlob(Buffer.from(cover), {
+      encoding: "image/png",
+    })
+    await bskyAgent.post({
+      text: titleWithLink,
+      embed: {
+        images: [{ alt: titleWithLink, image: data.blob }],
+      },
+      createdAt: new Date().toISOString(),
+    })
 
     console.log("Successfully Broadcasted:", article.data.title)
   }
@@ -130,6 +140,13 @@ async function run({ github, context, core }: ScriptParams) {
           `Awaiting deployment of "${article}". Retrying in 10 seconds`,
         )
         return
+      }
+
+      if (!bskyAgent.sessionManager.session) {
+        await bskyAgent.login({
+          identifier: process.env.BSKY_HANDLE as string,
+          password: process.env.BSKY_PASSWORD as string,
+        })
       }
 
       await broadcastArticle(article)

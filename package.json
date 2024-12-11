@@ -12,6 +12,7 @@
     "format:check": "prettier --ignore-path .gitignore --check \"**/*.{js,ts,tsx}\""
   },
   "dependencies": {
+    "@atproto/api": "^0.13.19",
     "@catppuccin/highlightjs": "^1.0.0",
     "@catppuccin/tailwindcss": "^0.1.6",
     "chalk": "^5.3.0",
