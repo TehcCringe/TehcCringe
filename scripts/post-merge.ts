@@ -115,6 +115,10 @@ async function run({ github, context, core }: ScriptParams) {
     await webhook.send({ embeds: [embed], files: [attachment] })
 
     // Bluesky
+    await bskyAgent.login({
+      identifier: process.env.BSKY_HANDLE as string,
+      password: process.env.BSKY_PASSWORD as string,
+    })
     const { data } = await bskyAgent.uploadBlob(Buffer.from(cover), {
       encoding: "image/png",
     })
@@ -140,13 +144,6 @@ async function run({ github, context, core }: ScriptParams) {
           `Awaiting deployment of "${article}". Retrying in 10 seconds`,
         )
         return
-      }
-
-      if (!bskyAgent.sessionManager.session) {
-        await bskyAgent.login({
-          identifier: process.env.BSKY_HANDLE as string,
-          password: process.env.BSKY_PASSWORD as string,
-        })
       }
 
       await broadcastArticle(article)
