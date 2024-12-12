@@ -16,7 +16,6 @@ export const articleDataSchema = z.object({
 export const articleSchema = z.object({
   content: z.string(),
   slug: z.string(),
-  cover: z.string(),
   data: articleDataSchema,
 })
 
@@ -52,7 +51,6 @@ export function getArticle(slug: string): ArticleType {
   return articleSchema.parse({
     content: parsedArticle.content.trim(),
     slug,
-    cover: `@/articles/${slug}/cover.png`,
     data: articleData,
   })
 }

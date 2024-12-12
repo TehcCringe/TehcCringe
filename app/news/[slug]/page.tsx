@@ -29,8 +29,6 @@ export default async function Page({
   const prevArticle = allArticles[index - 1]
   const nextArticle = allArticles[index + 1]
 
-  const image = await import(`@/articles/${slug}/cover.png`)
-
   return (
     <Flex col p={4} align="center">
       <Flex col gap={4} align="center" className="max-w-[720px]">
@@ -93,7 +91,7 @@ export default async function Page({
         </Flex>
 
         <Image
-          src={image.default}
+          src={`/assets/${article.slug}/cover.png`}
           alt={article.data.title}
           width={1000}
           height={500}
