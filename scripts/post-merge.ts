@@ -7,12 +7,12 @@ import { getArticle } from "@/app/lib/articles"
 import TwitterApi from "twitter-api-v2"
 import { AttachmentBuilder, EmbedBuilder, WebhookClient } from "discord.js"
 import { AtpAgent } from "@atproto/api"
-import { useWebSocketImplementation as implementWS } from "nostr-tools/pool"
+import { useWebSocketImplementation as implementWS, SimplePool } from "nostr-tools/pool"
 import WebSocket from "ws"
 
 implementWS(WebSocket)
 
-import { finalizeEvent, SimplePool } from "nostr-tools"
+import { finalizeEvent } from "nostr-tools"
 import * as nip19 from "nostr-tools/nip19"
 
 interface ScriptParams {
