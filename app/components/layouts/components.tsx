@@ -32,13 +32,11 @@ export async function LayoutItem({
 } & Parameters<typeof layoutItemVariants>[0]) {
   if (!article) return "404"
 
-  const image = await import(`@/articles/${article.slug}/cover.png`)
-
   return (
     <Link href={`/news/${article.slug}`} className={layoutItemVariants(props)}>
       <Flex col gap={4} p={4}>
         <Image
-          src={image.default}
+          src={`/assets/${article.slug}/cover.png`}
           alt={article.data.title}
           className="border border-surface0"
         />
