@@ -164,6 +164,7 @@ async function run({ github, context, core }: ScriptParams) {
       nostrSecretKey,
     )
     await Promise.any(nostrPool.publish(nostrRelays, event))
+    nostrPool.close(nostrRelays)
 
     console.log("Successfully Broadcasted:", article.data.title)
   }
