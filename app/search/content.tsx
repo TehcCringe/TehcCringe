@@ -161,7 +161,6 @@ function SearchedArticle({ article }: { article: ArticleType }) {
   return (
     <Flex gap={2}>
       <Flex col className="min-w-[160px] max-w-[160px]">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={`/assets/${article.slug}/cover.png`}
           alt={article.data.title}

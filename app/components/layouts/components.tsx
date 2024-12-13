@@ -1,6 +1,5 @@
 import { ArticleType } from "@/app/lib/articles"
 import { styled, variants } from "react-tailwind-variants"
-import Image from "next/image"
 import Flex from "../ui/flex"
 import { InlineMarkdownRenderer } from "../markdown"
 import Link from "next/link"
@@ -35,7 +34,7 @@ export async function LayoutItem({
   return (
     <Link href={`/news/${article.slug}`} className={layoutItemVariants(props)}>
       <Flex col gap={4} p={4}>
-        <Image
+        <img
           src={`/assets/${article.slug}/cover.png`}
           alt={article.data.title}
           className="border border-surface0"

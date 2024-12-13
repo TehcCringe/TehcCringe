@@ -4,7 +4,6 @@ import Flex from "@/app/components/ui/flex"
 import { getAllArticles, getArticle } from "@/app/lib/articles"
 import { cpSync } from "fs"
 import { ArrowLeftIcon } from "lucide-react"
-import Image from "next/image"
 import Link from "next/link"
 import { join } from "path"
 import "./highlight.css"
@@ -90,11 +89,9 @@ export default async function Page({
           )}
         </Flex>
 
-        <Image
+        <img
           src={`/assets/${article.slug}/cover.png`}
           alt={article.data.title}
-          width={1000}
-          height={500}
           className="border border-surface0"
         />
         <ArticleProvider article={article}>
