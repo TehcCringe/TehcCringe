@@ -159,7 +159,7 @@ async function run({ github, context, core }: ScriptParams) {
         kind: 1,
         created_at: Math.floor(Date.now() / 1000),
         tags: [],
-        content: `${titleWithLink} https://tehccinge.com/assets/${slug}/cover.png`,
+        content: `${article.data.title} ${shortenedUrl} https://tehccinge.com/assets/${slug}/cover.png`,
       },
       nostrSecretKey,
     )
