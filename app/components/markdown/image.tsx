@@ -11,7 +11,6 @@ export function Image({
   const { article } = useArticle()
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
     <img
       src={"/" + join("assets", article.slug, imageSrc)}
       alt={alt}

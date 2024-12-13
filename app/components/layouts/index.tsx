@@ -57,7 +57,7 @@ function ReverseNeovimLayout({ items }: { items: Array<ArticleType> }) {
  * CC|DD
  */
 function QuadLayout({ items }: { items: Array<ArticleType> }) {
-  const [tl, bl, tr, br] = items
+  const [tl, tr, bl, br] = items
 
   return (
     <ContainerCol>
