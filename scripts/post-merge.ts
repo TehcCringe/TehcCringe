@@ -7,16 +7,6 @@ import { getArticle } from "@/app/lib/articles"
 import TwitterApi from "twitter-api-v2"
 import { AttachmentBuilder, EmbedBuilder, WebhookClient } from "discord.js"
 import { AtpAgent } from "@atproto/api"
-import {
-  useWebSocketImplementation as implementWS,
-  SimplePool,
-} from "nostr-tools/pool"
-import WebSocket from "ws"
-
-implementWS(WebSocket)
-
-import { finalizeEvent } from "nostr-tools"
-import * as nip19 from "nostr-tools/nip19"
 
 interface ScriptParams {
   github: InstanceType<typeof GitHub>
@@ -38,18 +28,6 @@ const xClient = new TwitterApi({
 const webhook = new WebhookClient({
   url: process.env.DISCORD_WEBHOOK_URL as string,
 })
-
-const nostrRelays = [
-  "wss://relay.primal.net",
-  "wss://relay.damus.io",
-  "wss://relay.snort.social",
-  "wss://nos.lol",
-  "wss://nostr.wine",
-]
-const nostrPool = new SimplePool()
-const nostrSecretKey: Uint8Array = nip19.decode(
-  process.env.NOSTR_NSEC as string,
-).data as Uint8Array
 
 /**
  * Runs after a Pull Request is merged.
@@ -152,21 +130,6 @@ async function run({ github, context, core }: ScriptParams) {
       },
       createdAt: new Date().toISOString(),
     })
-
-    // Nostr
-    const event = finalizeEvent(
-      {
-        kind: 1,
-        created_at: Math.floor(Date.now() / 1000),
-        tags: [],
-        content: `${article.data.title} ${shortenedUrl} https://tehccinge.com/assets/${slug}/cover.png`,
-      },
-      nostrSecretKey,
-    )
-    await Promise.any(nostrPool.publish(nostrRelays, event))
-    nostrPool.close(nostrRelays)
-
-    console.log("Successfully Broadcasted:", article.data.title)
   }
 
   const deploymentInterval = setInterval(async () => {
