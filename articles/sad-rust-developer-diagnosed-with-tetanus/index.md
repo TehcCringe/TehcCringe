@@ -19,7 +19,7 @@ When the package finally arrived, he ran outside to retrieve it, accidentally st
 
 He was then taken to the hospital, where he was diagnosed with [Tetanus](https://en.wikipedia.org/wiki/Tetanus).
 
-"The onry cure," said the doctor, "is to stay away from any sort of rust for three weeks."
+"The onry cure," said the doctor, "is to stay away from any sort of rust for tree reeks."
 
 The Rust Programmer was so shocked by the news that he immediately started to `panic!()`. After having been calmed down with some [Opium](https://uncyclopedia.com/wiki/Opium), the doctor encouraged him to call in sick and use some of his PTO (paid time off) to recover.
 
