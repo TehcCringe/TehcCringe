@@ -2,7 +2,6 @@ import { styled } from "react-tailwind-variants"
 import LogoIcon from "@/public/logo/svg/icon.svg"
 import Flex from "./ui/flex"
 import Link from "next/link"
-import { Search } from "lucide-react"
 
 export default function Header() {
   return (
@@ -33,9 +32,6 @@ export default function Header() {
             <SubmitArticleLink href="https://github.com/TehcCringe/TehcCringe/blob/master/docs/contributing.md">
               Submit an Article
             </SubmitArticleLink>
-            <Link href="/search">
-              <SearchIcon />
-            </Link>
           </nav>
         </Flex>
       </HeaderContent>
@@ -57,10 +53,6 @@ const NavLink = styled("a", {
 
 const SubmitArticleLink = styled("a", {
   base: "bg-mauve/10 px-3 py-2 text-mauve hover:bg-yellow/10 hover:underline hover:text-yellow max-md:hidden",
-})
-
-const SearchIcon = styled(Search, {
-  base: "w-6 h-6 text-subtext0 hover:text-yellow",
 })
 
 export const LogoHeader = styled("span", {
