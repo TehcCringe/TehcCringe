@@ -1,7 +1,7 @@
 ---
-title: "Breaking: Ilia responds to allegations of vandalism; Claims its "Defamation by definition""
+title: "Breaking: Ilia responds to allegations of vandalism; Claims its 'Defamation by definition'"
 date: 2025-02-03
-tags: 
+tags:
   - news
   - tech
 author: "https://x.com/DevSiriTweets"
