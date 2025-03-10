@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "new:article": "bun scripts/new-article.ts",
+    "new:sponsor": "bun scripts/new-sponsor.ts",
     "format": "prettier --ignore-path .gitignore --write \"**/*.{js,ts,tsx}\"",
     "format:check": "prettier --ignore-path .gitignore --check \"**/*.{js,ts,tsx}\""
   },

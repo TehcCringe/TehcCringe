@@ -4,6 +4,8 @@ import Flex from "../components/ui/flex"
 import { ArticleType, getAllArticles } from "../lib/articles"
 import { layoutComponents, layouts, LayoutType } from "../components/layouts"
 import Link from "next/link"
+import SponsorBanner from "../components/sponsor-banner"
+import { getSponsorsForPage } from "../lib/utils"
 
 const paginationChunkAmount = 10
 
@@ -60,17 +62,46 @@ export default async function Home({ params }: { params: { page: string } }) {
     itemsUsed += layout.itemCount
   }
 
+  // Get 2 sponsors for the homepage
+  const pageKey = `page-${params.page}`
+  const sponsors = getSponsorsForPage(pageKey, 2)
+
+  // Determine sponsor insertion points (roughly divide layoutChunks into thirds)
+  const insertionPoints =
+    layoutChunks.length > 2
+      ? [
+          Math.floor(layoutChunks.length / 3),
+          Math.floor((layoutChunks.length * 2) / 3),
+        ]
+      : [0]
+
   return (
     <Flex col align="center" className="bg-mantle">
       <ArticleContainer mode="desktop">
         {layoutChunks.map(({ layout, items }, i) => {
           const Component = layoutComponents[layout.Layout]
+          const shouldInsertSponsor =
+            sponsors.length > 0 && insertionPoints.includes(i)
+          const sponsorIndex = insertionPoints.indexOf(i)
 
-          return <Component key={i} items={items} />
+          return (
+            <Flex key={i} col width="full">
+              <Component items={items} />
+              {shouldInsertSponsor && sponsors[sponsorIndex] && (
+                <SponsorBanner
+                  sponsor={sponsors[sponsorIndex]}
+                  position="homePage"
+                />
+              )}
+            </Flex>
+          )
         })}
       </ArticleContainer>
       <ArticleContainer mode="mobile">
         <ColumnLayout items={byNewest} />
+        {sponsors.length > 0 && (
+          <SponsorBanner sponsor={sponsors[0]} position="homePage" />
+        )}
       </ArticleContainer>
       <Flex width="full" p={2} justify="center">
         <Flex width="full" gap={2} className="max-w-[480px]">
