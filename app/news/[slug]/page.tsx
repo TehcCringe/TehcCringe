@@ -12,7 +12,7 @@ import { A } from "@/app/components/markdown/paragraph"
 import { Code } from "@/app/components/markdown/code"
 import { Metadata } from "next"
 import SponsorBanner from "@/app/components/sponsor-banner"
-import { getSponsorsForPage } from "@/app/lib/utils"
+import { getSponsorsForPage } from "@/app/lib/sponsors"
 
 export default async function Page({
   params,
@@ -31,7 +31,7 @@ export default async function Page({
   const nextArticle = allArticles[index + 1]
 
   // Get a sponsor for this article - use slug as a consistent seed
-  const sponsors = getSponsorsForPage(`article-${slug}`, 1)
+  const sponsor = getSponsorsForPage(`article-${slug}`, 1)
 
   return (
     <Flex col p={4} align="center">
@@ -103,8 +103,8 @@ export default async function Page({
           <MarkdownRenderer>{article.content}</MarkdownRenderer>
         </ArticleProvider>
 
-        {sponsors.length > 0 && (
-          <SponsorBanner sponsor={sponsors[0]} position="articlePage" />
+        {sponsor.length > 0 && (
+          <SponsorBanner sponsor={sponsor[0]} position="articlePage" />
         )}
 
         <Flex width="full" gap={2}>

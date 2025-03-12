@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Flex from "./ui/flex"
 import { styled } from "react-tailwind-variants"
-import type { Sponsor } from "../../sponsors/sponsors"
+import { Sponsor } from "../lib/sponsors"
 
 interface SponsorBannerProps {
   sponsor: Sponsor
@@ -9,39 +9,11 @@ interface SponsorBannerProps {
   position?: "homePage" | "articlePage"
 }
 
-// Outer wrapper that visually connects with articles
-const SponsorWrapper = styled("div", {
-  base: "w-full bg-base",
-  variants: {
-    position: {
-      homePage: "mx-auto border-t-2 border-x-2 border-crust",
-      articlePage: "mx-auto",
-    },
-  },
-  defaultVariants: {
-    position: "homePage",
-  },
-})
-
-// Inner container for the banner content
-const BannerContainer = styled("div", {
-  base: "w-full p-4 bg-surface0 my-6 border-x-2 border-y-2 border-surface1 mx-auto overflow-hidden",
-  variants: {
-    position: {
-      homePage: "max-w-4xl",
-      articlePage: "max-w-3xl",
-    },
-  },
-  defaultVariants: {
-    position: "homePage",
-  },
-})
-
-const SponsorBanner = ({
+export default function SponsorBanner({
   sponsor,
   className = "",
   position = "homePage",
-}: SponsorBannerProps) => {
+}: SponsorBannerProps) {
   if (!sponsor) return null
 
   return (
@@ -75,4 +47,30 @@ const SponsorBanner = ({
   )
 }
 
-export default SponsorBanner
+// Outer wrapper that visually connects with articles
+const SponsorWrapper = styled("div", {
+  base: "w-full bg-base",
+  variants: {
+    position: {
+      homePage: "mx-auto border-t-2 border-x-2 border-crust",
+      articlePage: "mx-auto",
+    },
+  },
+  defaultVariants: {
+    position: "homePage",
+  },
+})
+
+// Inner container for the banner content
+const BannerContainer = styled("div", {
+  base: "w-full p-4 bg-surface0 my-6 border-x-2 border-y-2 border-surface1 mx-auto overflow-hidden",
+  variants: {
+    position: {
+      homePage: "max-w-4xl",
+      articlePage: "max-w-3xl",
+    },
+  },
+  defaultVariants: {
+    position: "homePage",
+  },
+})

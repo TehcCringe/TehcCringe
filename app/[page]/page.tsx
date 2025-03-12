@@ -5,7 +5,11 @@ import { ArticleType, getAllArticles } from "../lib/articles"
 import { layoutComponents, layouts, LayoutType } from "../components/layouts"
 import Link from "next/link"
 import SponsorBanner from "../components/sponsor-banner"
-import { getSponsorsForPage } from "../lib/utils"
+import { getSponsorsForPage } from "../lib/sponsors"
+import { getAllSponsors } from "../lib/sponsors"
+import { cpSync } from "fs"
+import { join } from "path"
+import { slugify } from "@/app/lib/utils"
 
 const paginationChunkAmount = 10
 
@@ -150,6 +154,16 @@ export async function generateStaticParams() {
   for (let i = 1; i < availableChunks; i++) {
     chunks.push({ page: i.toString() })
   }
+
+  const sponsors = getAllSponsors()
+
+  sponsors.forEach(sponsor => {
+    const slug = slugify(sponsor.title)
+    const assetDir = join(process.cwd(), "public", "assets", "sponsors", slug)
+    const sponsorDir = join(process.cwd(), "sponsors", slug)
+
+    cpSync(sponsorDir, assetDir, { recursive: true })
+  })
 
   return chunks
 }

@@ -1,19 +1,10 @@
 import inquirer from "inquirer"
-import { existsSync, readFileSync, writeFileSync } from "fs"
+import { existsSync, mkdirSync, readdirSync, writeFileSync } from "fs"
 import sharp from "sharp"
 import { join } from "path"
 import chalk from "chalk"
-import type { SponsorsData, Sponsor } from "../sponsors/sponsors"
+import type { Sponsor } from "../app/lib/sponsors"
 import { slugify } from "markdown-to-jsx"
-
-const sponsorJSON = join(process.cwd(), "sponsors", "sponsors.json")
-const sponsorsImagesDir = join(process.cwd(), "public", "sponsors", "images")
-const existingData = JSON.parse(
-  readFileSync(sponsorJSON, "utf8"),
-) as SponsorsData
-const existingTitles = existingData.sponsors.map((s: Sponsor) =>
-  s.title.toLowerCase(),
-)
 
 const res = await inquirer.prompt([
   {
@@ -25,7 +16,10 @@ const res = await inquirer.prompt([
         return "Title is required"
       }
 
-      if (existingTitles.includes(value.toLowerCase())) {
+      const sponsorsDir = join(process.cwd(), "sponsors")
+      const sponsorsChildren = readdirSync(sponsorsDir)
+
+      if (sponsorsChildren.includes(slugify(value))) {
         return "Sponsor with this title already exists"
       }
 
@@ -127,14 +121,18 @@ if (res.platform !== "Post anonymously") {
   ).displayName
 }
 
-// const imageFileName = `${res.title.toLowerCase().replace(/\s+/g, "")}.jpg`
-const slug = slugify(res.title) + ".jpg"
+const slug = slugify(res.title)
+
+mkdirSync(join(process.cwd(), "sponsors", slug))
+
+const sponsorDir = join(process.cwd(), "sponsors", slug)
+
 const image = await sharp(res.imagePath)
   .resize(800, null)
   .jpeg({ mozjpeg: true })
   .toBuffer()
 
-writeFileSync(join(sponsorsImagesDir, slug), image)
+writeFileSync(join(sponsorDir, "image.jpg"), image)
 
 let handle: string | null = null
 
@@ -152,7 +150,7 @@ const sponsorData: Sponsor = {
   title: res.title,
   author: "",
   displayName: "",
-  image: `/sponsors/images/${slug}`,
+  image: `/assets/sponsors/${slug}/image.jpg`,
   alt: res.alt,
 }
 
@@ -164,16 +162,17 @@ if (displayName) {
   sponsorData.displayName = displayName
 }
 
-const sponsorsData = existingData
-sponsorsData.sponsors.push(sponsorData)
-
-writeFileSync(sponsorJSON, JSON.stringify(sponsorsData, null, 2), "utf8")
+writeFileSync(
+  join(sponsorDir, "sponsor.json"),
+  JSON.stringify(sponsorData, null, 2),
+  "utf8",
+)
 
 console.log(
   chalk.green("New sponsor added successfully:"),
   chalk.cyan(res.title),
 )
 console.log(
-  chalk.green("Sponsor image saved to:"),
-  chalk.cyan(`public/sponsors/images/${slug}`),
+  chalk.green("Sponsor directory created at:"),
+  chalk.cyan(`sponsors/${slug}`),
 )
