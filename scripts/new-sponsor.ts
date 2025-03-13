@@ -132,7 +132,7 @@ const image = await sharp(res.imagePath)
   .jpeg({ mozjpeg: true })
   .toBuffer()
 
-writeFileSync(join(sponsorDir, "image.jpg"), image)
+writeFileSync(join(sponsorDir, "image.png"), image)
 
 let handle: string | null = null
 
@@ -150,7 +150,6 @@ const sponsorData: Sponsor = {
   title: res.title,
   author: "",
   displayName: "",
-  image: `/assets/sponsors/${slug}/image.jpg`,
   alt: res.alt,
 }
 

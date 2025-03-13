@@ -2,6 +2,7 @@ import Image from "next/image"
 import Flex from "./ui/flex"
 import { styled } from "react-tailwind-variants"
 import { Sponsor } from "../lib/sponsors"
+import { slugify } from "@/app/lib/utils"
 
 interface SponsorBannerProps {
   sponsor: Sponsor
@@ -24,7 +25,7 @@ export default function SponsorBanner({
           <Flex align="center" gap={4}>
             <div className="relative w-full h-72 mb-2">
               <Image
-                src={sponsor.image}
+                src={`/assets/sponsors/${slugify(sponsor.title)}/image.png`}
                 alt={sponsor.alt}
                 fill
                 style={{ objectFit: "contain" }}

@@ -6,7 +6,6 @@ export const sponsorSchema = z.object({
   title: z.string(),
   author: z.string(),
   displayName: z.string(),
-  image: z.string(),
   alt: z.string(),
 })
 

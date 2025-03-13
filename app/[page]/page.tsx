@@ -66,6 +66,15 @@ export default async function Home({ params }: { params: { page: string } }) {
     itemsUsed += layout.itemCount
   }
 
+  // Copy sponsors to public/assets at build time to ensure assets are available
+  getAllSponsors().forEach(sponsor => {
+    const slug = slugify(sponsor.title)
+    const assetDir = join(process.cwd(), "public", "assets", "sponsors", slug)
+    const sponsorDir = join(process.cwd(), "sponsors", slug)
+
+    cpSync(sponsorDir, assetDir, { recursive: true })
+  })
+
   // Get 2 sponsors for the homepage
   const pageKey = `page-${params.page}`
   const sponsors = getSponsorsForPage(pageKey, 2)
@@ -154,16 +163,6 @@ export async function generateStaticParams() {
   for (let i = 1; i < availableChunks; i++) {
     chunks.push({ page: i.toString() })
   }
-
-  const sponsors = getAllSponsors()
-
-  sponsors.forEach(sponsor => {
-    const slug = slugify(sponsor.title)
-    const assetDir = join(process.cwd(), "public", "assets", "sponsors", slug)
-    const sponsorDir = join(process.cwd(), "sponsors", slug)
-
-    cpSync(sponsorDir, assetDir, { recursive: true })
-  })
 
   return chunks
 }
