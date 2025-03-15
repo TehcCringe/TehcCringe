@@ -13,10 +13,15 @@ import { slugify } from "@/app/lib/utils"
 
 const paginationChunkAmount = 10
 
-export default async function Home({ params }: { params: { page: string } }) {
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ page: string }>
+}) {
   const articles = getAllArticles()
   const availableChunks = Math.floor(articles.length / paginationChunkAmount)
-  const pageNumber = Number(params.page)
+  const awaitedParams = await params
+  const pageNumber = Number(awaitedParams.page)
 
   const byNewest = articles
     .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
@@ -76,7 +81,7 @@ export default async function Home({ params }: { params: { page: string } }) {
   })
 
   // Get 2 sponsors for the homepage
-  const pageKey = `page-${params.page}`
+  const pageKey = `page-${awaitedParams.page}`
   const sponsors = getSponsorsForPage(pageKey, 2)
 
   // Determine sponsor insertion points (roughly divide layoutChunks into thirds)
