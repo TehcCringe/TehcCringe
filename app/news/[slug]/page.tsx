@@ -11,6 +11,8 @@ import { H1 } from "@/app/components/markdown/headers"
 import { A } from "@/app/components/markdown/paragraph"
 import { Code } from "@/app/components/markdown/code"
 import { Metadata } from "next"
+import SponsorBanner from "@/app/components/sponsor-banner"
+import { getSponsorsForPage } from "@/app/lib/sponsors"
 
 export default async function Page({
   params,
@@ -27,6 +29,9 @@ export default async function Page({
     .findIndex(article => article.slug === slug)
   const prevArticle = allArticles[index - 1]
   const nextArticle = allArticles[index + 1]
+
+  // Get a sponsor for this article - use slug as a consistent seed
+  const sponsor = getSponsorsForPage(`article-${slug}`, 1)
 
   return (
     <Flex col p={4} align="center">
@@ -97,6 +102,10 @@ export default async function Page({
         <ArticleProvider article={article}>
           <MarkdownRenderer>{article.content}</MarkdownRenderer>
         </ArticleProvider>
+
+        {sponsor.length > 0 && (
+          <SponsorBanner sponsor={sponsor[0]} position="articlePage" />
+        )}
 
         <Flex width="full" gap={2}>
           <Flex grow noBasis asChild={prevArticle ? true : undefined} p={2}>
