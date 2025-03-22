@@ -3,6 +3,7 @@ import { styled, variants } from "react-tailwind-variants"
 import Flex from "../ui/flex"
 import { InlineMarkdownRenderer } from "../markdown"
 import Link from "next/link"
+import Image, { StaticImageData } from "next/image"
 
 const layoutItemVariants = variants({
   base: "flex flex-col basis-0 group max-w-[720px]",
@@ -31,11 +32,15 @@ export async function LayoutItem({
 } & Parameters<typeof layoutItemVariants>[0]) {
   if (!article) return "404"
 
+  const imagePath = (await import(
+    `@/articles/${article.slug}/cover.png`
+  )) as StaticImageData
+
   return (
     <Link href={`/news/${article.slug}`} className={layoutItemVariants(props)}>
       <Flex col gap={4} p={4}>
-        <img
-          src={`/assets/${article.slug}/cover.png`}
+        <Image
+          src={imagePath}
           alt={article.data.title}
           className="border border-surface0"
         />

@@ -26,26 +26,20 @@ export type ArticleDataType = z.infer<typeof articleDataSchema>
 export const articlesDir = join(process.cwd(), "articles")
 
 export function getAllArticles(): Array<ArticleType> {
-  const articleDirs = readdirSync(articlesDir)
+  return readdirSync(articlesDir).map(slug => {
+    try {
+      return getArticle(slug)
+    } catch (e) {
+      const errorContent = `[Article] (${slug}) - ${formatError(e, false)}`
 
-  return articleDirs
-    .map(slug => {
-      try {
-        return getArticle(slug)
-      } catch (e) {
-        const errorContent = `(${slug}) - ${formatError(e, false)}`
-
-        throw new Error(errorContent)
-      }
-    })
-    .filter(Boolean) as Array<ArticleType>
+      throw new Error(errorContent)
+    }
+  })
 }
 
 export function getArticle(slug: string): ArticleType {
   const articleDirPath = join(articlesDir, slug)
-
   const parsedArticle = matter.read(join(articleDirPath, "index.md"))
-
   const articleData = articleDataSchema.parse(parsedArticle.data)
 
   return articleSchema.parse({

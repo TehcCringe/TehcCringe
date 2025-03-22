@@ -1,21 +1,22 @@
 import Image from "next/image"
 import Flex from "./ui/flex"
 import { styled } from "react-tailwind-variants"
-import { Sponsor } from "../lib/sponsors"
-import { slugify } from "@/app/lib/utils"
+import { SponsorType } from "../lib/sponsors"
 
 interface SponsorBannerProps {
-  sponsor: Sponsor
+  sponsor: SponsorType
   className?: string
   position?: "homePage" | "articlePage"
 }
 
-export default function SponsorBanner({
+export default async function SponsorBanner({
   sponsor,
   className = "",
   position = "homePage",
 }: SponsorBannerProps) {
   if (!sponsor) return null
+
+  const imagePath = await import(`@/sponsors/${sponsor.slug}/cover.png`)
 
   return (
     <SponsorWrapper position={position}>
@@ -25,8 +26,8 @@ export default function SponsorBanner({
           <Flex align="center" gap={4}>
             <div className="relative w-full h-72 mb-2">
               <Image
-                src={`/assets/sponsors/${slugify(sponsor.title)}/image.png`}
-                alt={sponsor.alt}
+                src={imagePath}
+                alt={sponsor.content}
                 fill
                 style={{ objectFit: "contain" }}
                 priority={false}
@@ -34,12 +35,12 @@ export default function SponsorBanner({
             </div>
           </Flex>
           <div className="text-xs text-subtext0">
-            This ad is brought to you by{" "}
+            Brought to you by{" "}
             <a
-              href={sponsor.author}
+              href={sponsor.data.author}
               className="hover:underline hover:text-sky transition-colors"
             >
-              {sponsor.displayName}
+              {sponsor.data.displayName}
             </a>
           </div>
         </Flex>

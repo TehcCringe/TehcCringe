@@ -1,31 +1,49 @@
 import { join } from "path"
-import { readFileSync, readdirSync } from "fs"
+import { readdirSync } from "fs"
 import { z } from "zod"
+import { formatError } from "./errors"
+import matter from "gray-matter"
 
-export const sponsorSchema = z.object({
+export const sponsorJsonSchema = z.object({
   title: z.string(),
   author: z.string(),
   displayName: z.string(),
-  alt: z.string(),
 })
 
-export type Sponsor = z.infer<typeof sponsorSchema>
+export const sponsorSchema = z.object({
+  data: sponsorJsonSchema,
+  content: z.string(),
+  slug: z.string(),
+})
 
-export function getAllSponsors(): Array<Sponsor> {
-  const sponsorDirs = join(process.cwd(), "sponsors")
-  const sponsorNames = readdirSync(sponsorDirs, { withFileTypes: true })
-    .filter(dir => dir.isDirectory())
-    .map(dir => dir.name)
+export type SponsorJsonType = z.infer<typeof sponsorJsonSchema>
 
-  const sponsors: Sponsor[] = []
+export type SponsorType = z.infer<typeof sponsorSchema>
 
-  for (const sponsorName of sponsorNames) {
-    const sponsorDataPath = join(sponsorDirs, sponsorName, "sponsor.json")
-    const sponsorData = JSON.parse(readFileSync(sponsorDataPath, "utf-8"))
-    sponsors.push(sponsorSchema.parse(sponsorData))
-  }
+export const sponsorsDir = join(process.cwd(), "sponsors")
 
-  return sponsors
+export function getAllSponsors(): Array<SponsorType> {
+  return readdirSync(sponsorsDir).map(slug => {
+    try {
+      return getSponsor(slug)
+    } catch (e) {
+      const errorContent = `[Sponsor] (${slug}) - ${formatError(e, false)}`
+
+      throw new Error(errorContent)
+    }
+  })
+}
+
+export function getSponsor(slug: string): SponsorType {
+  const sponsorDirPath = join(sponsorsDir, slug)
+  const parsedSponsor = matter.read(join(sponsorDirPath, "index.md"))
+  const sponsorData = sponsorJsonSchema.parse(parsedSponsor.data)
+
+  return sponsorSchema.parse({
+    content: parsedSponsor.content.trim(),
+    slug,
+    data: sponsorData,
+  })
 }
 
 // Generate pseudo-random number based on seed
@@ -45,7 +63,7 @@ export const seedRandom = (seed: string): (() => number) => {
 export function getSponsorsForPage(
   pageKey: string,
   count: number = 1,
-): Array<Sponsor> {
+): Array<SponsorType> {
   const sponsors = getAllSponsors()
 
   if (sponsors.length === 0) {

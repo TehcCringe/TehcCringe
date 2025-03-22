@@ -1,10 +1,10 @@
 import inquirer from "inquirer"
-import { existsSync, mkdirSync, readdirSync, writeFileSync } from "fs"
-import sharp from "sharp"
+import { mkdirSync, readdirSync, writeFileSync } from "fs"
 import { join } from "path"
 import chalk from "chalk"
-import type { Sponsor } from "../app/lib/sponsors"
+import type { SponsorJsonType } from "../app/lib/sponsors"
 import { slugify } from "markdown-to-jsx"
+import { generateImageBuffer, validateLocalImagePath } from "./utils"
 
 const res = await inquirer.prompt([
   {
@@ -30,52 +30,15 @@ const res = await inquirer.prompt([
     type: "input",
     message: "Path to sponsor image",
     name: "imagePath",
-    validate: async value => {
-      try {
-        if (
-          !value.endsWith(".jpg") &&
-          !value.endsWith(".png") &&
-          !value.endsWith(".jpeg") &&
-          !value.endsWith(".webp")
-        ) {
-          return "Unsupported extension. Expected one of: .jpg, .png, .jpeg, .webp"
-        }
-
-        const fileExists = existsSync(value)
-
-        if (!fileExists) {
-          return "File does not exist"
-        }
-
-        const image = sharp(value)
-        const metadata = await image.metadata()
-
-        if (!metadata.width || !metadata.height) {
-          return "Image dimensions are not available"
-        }
-
-        if (metadata.width < 878 || metadata.height < 497) {
-          return "Image dimensions must be at least 878x497"
-        }
-
-        if (metadata.height > metadata.width) {
-          return "Image height must be less than or equal to image width"
-        }
-
-        return true
-      } catch (error) {
-        return (error as Error).message
-      }
-    },
+    validate: validateLocalImagePath,
   },
   {
     type: "input",
-    message: "Alt text for image",
-    name: "alt",
+    message: "Sponsor Message",
+    name: "description",
     validate(value) {
-      if (!value.trim()) {
-        return "Alt text is required for accessibility"
-      }
+      if (!value.trim()) return "Message is required"
+
       return true
     },
   },
@@ -122,17 +85,11 @@ if (res.platform !== "Post anonymously") {
 }
 
 const slug = slugify(res.title)
+const sponsorDir = join(process.cwd(), "sponsors", slug)
+const image = await generateImageBuffer(res.imagePath)
 
 mkdirSync(join(process.cwd(), "sponsors", slug))
-
-const sponsorDir = join(process.cwd(), "sponsors", slug)
-
-const image = await sharp(res.imagePath)
-  .resize(800, null)
-  .jpeg({ mozjpeg: true })
-  .toBuffer()
-
-writeFileSync(join(sponsorDir, "image.png"), image)
+writeFileSync(join(sponsorDir, "cover.png"), image)
 
 let handle: string | null = null
 
@@ -146,32 +103,22 @@ if (author) {
   }
 }
 
-const sponsorData: Sponsor = {
+const sponsorData: Partial<SponsorJsonType> = {
   title: res.title,
-  author: "",
-  displayName: "",
-  alt: res.alt,
 }
 
-if (handle) {
-  sponsorData.author = handle
-}
-
-if (displayName) {
-  sponsorData.displayName = displayName
-}
+if (handle) sponsorData.author = handle
+if (displayName) sponsorData.displayName = displayName
 
 writeFileSync(
-  join(sponsorDir, "sponsor.json"),
-  JSON.stringify(sponsorData, null, 2),
-  "utf8",
+  join(sponsorDir, "index.md"),
+  `---
+${Object.entries(sponsorData)
+  .map(([key, value]) => `${key}: "${value}"`)
+  .join("\n")}
+---
+
+${res.description}`,
 )
 
-console.log(
-  chalk.green("New sponsor added successfully:"),
-  chalk.cyan(res.title),
-)
-console.log(
-  chalk.green("Sponsor directory created at:"),
-  chalk.cyan(`sponsors/${slug}`),
-)
+console.log(chalk.green("Sponsor created at:"), chalk.cyan(`sponsors/${slug}`))
