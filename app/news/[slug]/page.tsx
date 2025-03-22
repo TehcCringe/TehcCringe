@@ -34,7 +34,7 @@ export default async function Page({
   const nextArticle = allArticles[index + 1]
 
   // Get a sponsor for this article - use slug as a consistent seed
-  const sponsor = getSponsorsForPage(`article-${slug}`, 1)
+  const sponsor = getSponsorsForPage(1)
 
   return (
     <Flex col p={4} align="center">
