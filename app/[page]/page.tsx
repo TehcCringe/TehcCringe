@@ -6,10 +6,6 @@ import { layoutComponents, layouts, LayoutType } from "../components/layouts"
 import Link from "next/link"
 import SponsorBanner from "../components/sponsor-banner"
 import { getSponsorsForPage } from "../lib/sponsors"
-import { getAllSponsors } from "../lib/sponsors"
-import { cpSync } from "fs"
-import { join } from "path"
-import { slugify } from "@/app/lib/utils"
 
 const paginationChunkAmount = 10
 
@@ -70,15 +66,6 @@ export default async function Home({
     layoutChunks.push({ layout, items })
     itemsUsed += layout.itemCount
   }
-
-  // Copy sponsors to public/assets at build time to ensure assets are available
-  getAllSponsors().forEach(sponsor => {
-    const slug = slugify(sponsor.title)
-    const assetDir = join(process.cwd(), "public", "assets", "sponsors", slug)
-    const sponsorDir = join(process.cwd(), "sponsors", slug)
-
-    cpSync(sponsorDir, assetDir, { recursive: true })
-  })
 
   // Get 2 sponsors for the homepage
   const pageKey = `page-${awaitedParams.page}`

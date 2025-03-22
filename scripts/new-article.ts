@@ -1,9 +1,9 @@
 import inquirer from "inquirer"
-import { existsSync, mkdirSync, readdirSync, writeFileSync } from "fs"
-import sharp from "sharp"
+import { mkdirSync, readdirSync, writeFileSync } from "fs"
 import { slugify } from "@/app/lib/utils"
 import { join } from "path"
 import chalk from "chalk"
+import { generateImageBuffer, validateLocalImagePath } from "./utils"
 
 const res = await inquirer.prompt([
   {
@@ -11,6 +11,10 @@ const res = await inquirer.prompt([
     message: "Article Title",
     name: "title",
     validate(value) {
+      if (!value.trim()) {
+        return "Title is required"
+      }
+
       const articlesDir = join(process.cwd(), "articles")
       const articlesChildren = readdirSync(articlesDir)
 
@@ -25,43 +29,7 @@ const res = await inquirer.prompt([
     type: "input",
     message: "Path to cover image",
     name: "cover",
-    validate: async value => {
-      try {
-        if (
-          !value.endsWith(".jpg") &&
-          !value.endsWith(".png") &&
-          !value.endsWith(".jpeg") &&
-          !value.endsWith(".webp")
-        ) {
-          return "Unsupported extension. Expected one of: .jpg, .png, .jpeg, .webp"
-        }
-
-        const fileExists = existsSync(value)
-
-        if (!fileExists) {
-          return "File does not exist"
-        }
-
-        const image = sharp(value)
-        const metadata = await image.metadata()
-
-        if (!metadata.width || !metadata.height) {
-          return "Image dimensions are not available"
-        }
-
-        if (metadata.width < 878 || metadata.height < 497) {
-          return "Image dimensions must be at least 878x497"
-        }
-
-        if (metadata.height > metadata.width) {
-          return "Image height must be less than or equal to image width"
-        }
-
-        return true
-      } catch (error) {
-        return (error as Error).message
-      }
-    },
+    validate: validateLocalImagePath,
   },
   {
     type: "list",
@@ -110,11 +78,7 @@ const slug = slugify(res.title)
 mkdirSync(join(process.cwd(), "articles", slug))
 
 const articleDir = join(process.cwd(), "articles", slug)
-
-const cover = await sharp(res.cover)
-  .resize(878, null)
-  .jpeg({ mozjpeg: true })
-  .toBuffer()
+const cover = await generateImageBuffer(res.cover)
 
 writeFileSync(join(articleDir, "cover.png"), cover)
 

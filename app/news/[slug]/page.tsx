@@ -2,7 +2,7 @@ import { ArticleProvider } from "@/app/components/article-provider"
 import MarkdownRenderer from "@/app/components/markdown"
 import Flex from "@/app/components/ui/flex"
 import { getAllArticles, getArticle } from "@/app/lib/articles"
-import { cpSync } from "fs"
+import { cpSync, readdirSync } from "fs"
 import { ArrowLeftIcon } from "lucide-react"
 import Link from "next/link"
 import { join } from "path"
@@ -13,6 +13,7 @@ import { Code } from "@/app/components/markdown/code"
 import { Metadata } from "next"
 import SponsorBanner from "@/app/components/sponsor-banner"
 import { getSponsorsForPage } from "@/app/lib/sponsors"
+import Image from "next/image"
 
 export default async function Page({
   params,
@@ -20,6 +21,8 @@ export default async function Page({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
+
+  const imagePath = await import(`@/articles/${slug}/cover.png`)
 
   const article = getArticle(slug)
   const allArticles = getAllArticles()
@@ -94,8 +97,8 @@ export default async function Page({
           )}
         </Flex>
 
-        <img
-          src={`/assets/${article.slug}/cover.png`}
+        <Image
+          src={imagePath}
           alt={article.data.title}
           className="border border-surface0"
         />
@@ -150,6 +153,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
+  const imagePath = await import(`@/articles/${slug}/cover.png`)
 
   const article = getArticle(slug)
 
@@ -157,10 +161,10 @@ export async function generateMetadata({
     title: article.data.title,
     description: null,
     openGraph: {
-      images: [`https://tehccringe.com/assets/${slug}/cover.png`],
+      images: [`https://tehccringe.com${imagePath.default.src}`],
     },
     twitter: {
-      images: [`https://tehccringe.com/assets/${slug}/cover.png`],
+      images: [`https://tehccringe.com${imagePath.default.src}`],
     },
   }
 }
@@ -172,8 +176,13 @@ export async function generateStaticParams() {
   articles.forEach(article => {
     const assetDir = join(process.cwd(), "public", "assets", article.slug)
     const articleDir = join(process.cwd(), "articles", article.slug)
+    const articleMedia = readdirSync(articleDir).filter(
+      file => file !== "index.md" && file !== "cover.png",
+    )
 
-    cpSync(articleDir, assetDir, { recursive: true })
+    for (const file of articleMedia) {
+      cpSync(join(articleDir, file), join(assetDir, file))
+    }
   })
 
   return articles.map(article => ({ slug: article.slug }))
