@@ -115,6 +115,8 @@ export type LayoutType = {
   itemCount: number
 }
 
+export type LayoutGrouping = { layout: LayoutType; items: ArticleType[] }
+
 export const layouts: Array<LayoutType> = [
   {
     Layout: "NeovimLayout",

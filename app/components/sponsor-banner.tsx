@@ -1,7 +1,9 @@
-import Image from "next/image"
+"use client"
+import Image, { StaticImageData } from "next/image"
 import Flex from "./ui/flex"
 import { styled } from "react-tailwind-variants"
 import { SponsorType } from "../lib/sponsors"
+import { useEffect, useState } from "react"
 
 interface SponsorBannerProps {
   sponsor: SponsorType
@@ -9,14 +11,24 @@ interface SponsorBannerProps {
   position?: "homePage" | "articlePage"
 }
 
-export default async function SponsorBanner({
+export default function SponsorBanner({
   sponsor,
   className = "",
   position = "homePage",
 }: SponsorBannerProps) {
-  if (!sponsor) return null
+  const [imageSrc, setImageSrc] = useState<StaticImageData | null>(null)
 
-  const imagePath = await import(`@/sponsors/${sponsor.slug}/cover.png`)
+  useEffect(() => {
+    async function loadImage() {
+      const imagePath = (await import(
+        `@/sponsors/${sponsor.slug}/cover.png`
+      )) as StaticImageData
+
+      setImageSrc(imagePath)
+    }
+
+    loadImage()
+  }, [sponsor.slug])
 
   return (
     <SponsorWrapper position={position}>
@@ -25,13 +37,15 @@ export default async function SponsorBanner({
           <div className="text-xs tracking-wider mb-2">SPONSORED</div>
           <Flex align="center" gap={4}>
             <div className="relative w-full h-72 mb-2">
-              <Image
-                src={imagePath}
-                alt={sponsor.content}
-                fill
-                style={{ objectFit: "contain" }}
-                priority={false}
-              />
+              {imageSrc && (
+                <Image
+                  src={imageSrc}
+                  alt={sponsor.content}
+                  fill
+                  style={{ objectFit: "contain" }}
+                  priority={false}
+                />
+              )}
             </div>
           </Flex>
           <div className="text-xs text-subtext0">

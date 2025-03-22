@@ -1,9 +1,12 @@
+"use client"
+
 import { ArticleType } from "@/app/lib/articles"
 import { styled, variants } from "react-tailwind-variants"
 import Flex from "../ui/flex"
 import { InlineMarkdownRenderer } from "../markdown"
 import Link from "next/link"
 import Image, { StaticImageData } from "next/image"
+import { useEffect, useState } from "react"
 
 const layoutItemVariants = variants({
   base: "flex flex-col basis-0 group max-w-[720px]",
@@ -20,7 +23,7 @@ const layoutItemVariants = variants({
   },
 })
 
-export async function LayoutItem({
+export function LayoutItem({
   article,
   size = "sm",
   preview = false,
@@ -30,20 +33,30 @@ export async function LayoutItem({
   size?: "sm" | "md" | "lg"
   preview?: boolean
 } & Parameters<typeof layoutItemVariants>[0]) {
-  if (!article) return "404"
+  const [imageSrc, setImageSrc] = useState<StaticImageData | null>(null)
 
-  const imagePath = (await import(
-    `@/articles/${article.slug}/cover.png`
-  )) as StaticImageData
+  useEffect(() => {
+    async function loadImage() {
+      const imagePath = (await import(
+        `@/articles/${article.slug}/cover.png`
+      )) as StaticImageData
+
+      setImageSrc(imagePath)
+    }
+
+    loadImage()
+  }, [article.slug])
 
   return (
     <Link href={`/news/${article.slug}`} className={layoutItemVariants(props)}>
       <Flex col gap={4} p={4}>
-        <Image
-          src={imagePath}
-          alt={article.data.title}
-          className="border border-surface0"
-        />
+        {imageSrc && (
+          <Image
+            src={imageSrc}
+            alt={article.data.title}
+            className="border border-surface0"
+          />
+        )}
 
         <Flex col gap={1}>
           <p>
